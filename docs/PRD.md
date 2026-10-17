@@ -167,10 +167,10 @@ The UI never waits on the network: repositories save to Room, the UI updates fro
 | Entity | Key fields |
 | --- | --- |
 | GroupEntity | id (UUID), name, createdBy, updatedAt, isArchived, syncState, isDeleted |
-| MemberEntity | id, groupId, displayName, userId (optional), upiId (optional), updatedAt, syncState, isDeleted |
-| ExpenseEntity | id, groupId, paidBy, amountPaise (Long), description, category, date, splitType, createdBy, updatedAt, syncState, isDeleted |
-| ExpenseShareEntity | expenseId, memberId, sharePaise (Long); synced inside its expense's Firestore document |
-| SettlementEntity | id, groupId, fromMemberId, toMemberId, amountPaise, date, upiTxnId (optional), status (PENDING, CONFIRMED, REJECTED), updatedAt, syncState |
+| MemberEntity | id, groupId, displayName, userId (optional), upiId (optional), createdAt (member order: join time, then id), updatedAt, syncState, isDeleted |
+| ExpenseEntity | id, groupId, paidBy, amountPaise (Long), description, category, date, splitType, createdBy, createdAt (orders same-day expenses), updatedAt, syncState, isDeleted |
+| ExpenseShareEntity | expenseId, memberId, sharePaise (Long), percentBasisPoints (optional, percentage splits only: 33.33% = 3333); synced inside its expense's Firestore document |
+| SettlementEntity | id, groupId, fromMemberId, toMemberId, amountPaise, date, upiTxnId (optional), status (PENDING, CONFIRMED, REJECTED), method (UPI, CASH), updatedAt, syncState, isDeleted |
 | GroupEventEntity | id, groupId, actorMemberId, targetMemberId, type (GUEST_UPI_CHANGED), oldValue (optional), newValue, createdAt, syncState; append-only, never edited or deleted |
 
 ### Settlement algorithm

@@ -1,6 +1,6 @@
 # Milestone 1 — Foundations: plan
 
-**Status:** Approved. All M1 questions answered "recommended".
+**Status:** Done. All M1 questions answered "recommended". See section 9 for the outcome.
 **PRD phase:** Foundations, weeks 1–2: "Project setup, Room schema, split logic + tests".
 **Sources:** `docs/PRD.md` (updated after review), `docs/OPEN_QUESTIONS.md`, `CLAUDE.md`.
 
@@ -340,4 +340,35 @@ I updated `docs/PRD.md` with the review decisions:
 - Decisions: the free Firebase plan and no push notifications.
 - Future scope: in-app account deletion before any Play Store release.
 
-`SettlementEntity` and the M1-Q fields will be updated once section 2 is answered.
+After M1, the data model also has the M1-Q1 to Q5 fields: `MemberEntity.createdAt`, `ExpenseEntity.createdAt`, `ExpenseShareEntity.percentBasisPoints`, and `SettlementEntity.method` and `isDeleted`.
+
+---
+
+## 9. Outcome
+
+**Done.** `./gradlew ktlintCheck lint test koverVerify assembleDebug` passes locally and in CI (GitHub Actions on [Lokesh-reddy18/SplitEasy](https://github.com/Lokesh-reddy18/SplitEasy)).
+
+| Item | Result |
+| --- | --- |
+| Tests | 94 JVM unit tests (domain + Robolectric DAO tests), all passing |
+| Coverage | 100% line coverage of `domain.money`, `domain.split`, `domain.balance` and `domain.settlement` (gate: 90%) |
+| Room schema | v1 exported to `app/schemas/com.split.easy.data.local.SplitEasyDatabase/1.json` |
+| Domain purity | No Android, AndroidX, Room or Hilt imports under `domain/` |
+| Design check | The Coorg trip test reproduces the Balances screen's net balances and its 4 suggested payments in order |
+
+**Changes from the plan**
+- **Package and application ID** are `com.split.easy` (changed on request during M1).
+- **SDK 36, not 37:** API 37 is the latest stable, but its SDK platform isn't installed on this Mac and you chose to stay on 36. Compose BOM `2026.06.01`, core-ktx `1.18.0` and lifecycle `2.10.0` are the newest versions that compile against API 36. Lint reports `OldTargetApi` and `GradleDependency` as warnings because of this. Moving to 37 means installing the platform, then raising `compileSdk`/`targetSdk` and those three versions.
+- **Enums in Room** use Room's built-in conversion, which stores the enum name as text. Only `LocalDate` needs a custom converter (stored as epoch day).
+- **Robolectric** needs `--add-exports java.base/jdk.internal.access=ALL-UNNAMED` on JDK 21 (robolectric/robolectric#11434); it's set in `testOptions`.
+- **ktlint style:** `android_studio` with trailing commas allowed (`.editorconfig`).
+- **Commits:** an extra first commit adds the docs, and one refactor commit renames the package.
+
+**Not verified**
+- **Launching on an emulator:** the agent sandbox can't start the emulator, so the placeholder screen hasn't been checked on a device yet. `./gradlew installDebug` with a running emulator should show "SplitEasy is being built. Milestone 1: foundations."
+
+**Carried into M2**
+- Repositories that write to Room, mark changes PENDING and queue sync (with a no-op sync scheduler until M4).
+- Mapping Room entities to domain models (`Expense`, `Settlement`, `Member`, `Group`).
+- A local placeholder user ID for "You" until Firebase Auth arrives in M4.
+- Home list order: groups are sorted by name for now; decide the real order with the M2 screens.
