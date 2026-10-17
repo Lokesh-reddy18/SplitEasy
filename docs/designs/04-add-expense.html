@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Add expense</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#5B3FD6}a:hover{color:#4329B0}
+</style>
+</head>
+<body>
+<div style="width: 390px; height: 844px; box-sizing: border-box; position: relative; overflow: hidden; background: #FFFFFF; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #17142B; display: flex; flex-direction: column">
+  <header style="display: flex; align-items: center; gap: 4px; padding: 12px 12px 4px 8px">
+    <a href="03-group-detail.html" aria-label="Close" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #17142B">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>
+    </a>
+    <div style="flex-grow: 1"><div style="font-size: 18px; font-weight: 700">Add expense</div><div style="font-size: 13px; color: #5E5A73">Coorg trip</div></div>
+    <a href="03-group-detail.html" style="height: 40px; padding: 0 18px; border-radius: 12px; background: #5B3FD6; color: #FFFFFF; text-decoration: none; display: flex; align-items: center; font-size: 14px; font-weight: 700">Save</a>
+  </header>
+
+  <div style="padding: 16px 20px 0; display: flex; flex-direction: column; gap: 14px">
+    <div style="display: flex; align-items: flex-end; gap: 12px">
+      <div style="flex-grow: 1">
+        <label for="amount" style="font-size: 13px; font-weight: 600; color: #5E5A73">Amount</label>
+        <div style="display: flex; align-items: baseline; gap: 6px; border-bottom: 2px solid #5B3FD6; padding-bottom: 6px; margin-top: 4px">
+          <span style="font-size: 30px; font-weight: 700; color: #5E5A73">₹</span>
+          <input id="amount" value="2,400" style="border: none; outline: none; font-family: inherit; font-size: 40px; font-weight: 800; letter-spacing: -1px; color: #17142B; width: 100%; padding: 0; background: transparent">
+        </div>
+      </div>
+      <a href="07-receipt-scan.html" style="height: 48px; padding: 0 14px; border-radius: 12px; border: 1px solid #D6CEFB; color: #4329B0; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; flex-shrink: 0">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V6a2 2 0 0 1 2-2h2"></path><path d="M16 4h2a2 2 0 0 1 2 2v2"></path><path d="M20 16v2a2 2 0 0 1-2 2h-2"></path><path d="M8 20H6a2 2 0 0 1-2-2v-2"></path><path d="M8 12h8"></path></svg>
+        Scan
+      </a>
+    </div>
+
+    <div>
+      <label for="desc" style="font-size: 13px; font-weight: 600; color: #5E5A73">Description</label>
+      <input id="desc" value="Dinner at Raintree" style="margin-top: 4px; box-sizing: border-box; width: 100%; height: 48px; border: 1px solid #E6E3EF; border-radius: 12px; padding: 0 14px; font-family: inherit; font-size: 15px; color: #17142B">
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+      <button style="height: 56px; border: 1px solid #E6E3EF; border-radius: 12px; background: #FFFFFF; font-family: inherit; text-align: left; padding: 0 12px"><div style="font-size: 11px; color: #5E5A73; font-weight: 600">Paid by</div><div style="font-size: 14px; font-weight: 700; color: #17142B">Priya</div></button>
+      <button style="height: 56px; border: 1px solid #E6E3EF; border-radius: 12px; background: #FFFFFF; font-family: inherit; text-align: left; padding: 0 12px"><div style="font-size: 11px; color: #5E5A73; font-weight: 600">Category</div><div style="font-size: 14px; font-weight: 700; color: #17142B">Food</div></button>
+      <button style="height: 56px; border: 1px solid #E6E3EF; border-radius: 12px; background: #FFFFFF; font-family: inherit; text-align: left; padding: 0 12px"><div style="font-size: 11px; color: #5E5A73; font-weight: 600">Date</div><div style="font-size: 14px; font-weight: 700; color: #17142B">10 Oct</div></button>
+    </div>
+
+    <div>
+      <div style="font-size: 13px; font-weight: 600; color: #5E5A73; margin-bottom: 6px">Split</div>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; padding: 4px; background: #F0EEF5; border-radius: 12px">
+        <button style="height: 40px; border: none; border-radius: 9px; background: #FFFFFF; font-family: inherit; font-size: 14px; font-weight: 700; color: #17142B; box-shadow: 0 1px 2px rgba(23, 20, 43, 0.12)">Equally</button>
+        <button style="height: 40px; border: none; border-radius: 9px; background: transparent; font-family: inherit; font-size: 14px; font-weight: 600; color: #403B55">Exact</button>
+        <button style="height: 40px; border: none; border-radius: 9px; background: transparent; font-family: inherit; font-size: 14px; font-weight: 600; color: #403B55">Percent</button>
+      </div>
+    </div>
+
+    <div style="border: 1px solid #E6E3EF; border-radius: 14px; display: flex; flex-direction: column">
+      <label style="display: flex; align-items: center; gap: 12px; padding: 0 14px; height: 52px; border-bottom: 1px solid #F0EEF5"><input type="checkbox" checked style="width: 20px; height: 20px; accent-color: #5B3FD6"><span style="flex-grow: 1; font-size: 15px; font-weight: 600">You</span><span style="font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums">₹480</span></label>
+      <label style="display: flex; align-items: center; gap: 12px; padding: 0 14px; height: 52px; border-bottom: 1px solid #F0EEF5"><input type="checkbox" checked style="width: 20px; height: 20px; accent-color: #5B3FD6"><span style="flex-grow: 1; font-size: 15px; font-weight: 600">Priya</span><span style="font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums">₹480</span></label>
+      <label style="display: flex; align-items: center; gap: 12px; padding: 0 14px; height: 52px; border-bottom: 1px solid #F0EEF5"><input type="checkbox" checked style="width: 20px; height: 20px; accent-color: #5B3FD6"><span style="flex-grow: 1; font-size: 15px; font-weight: 600">Meera</span><span style="font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums">₹480</span></label>
+      <label style="display: flex; align-items: center; gap: 12px; padding: 0 14px; height: 52px; border-bottom: 1px solid #F0EEF5"><input type="checkbox" checked style="width: 20px; height: 20px; accent-color: #5B3FD6"><span style="flex-grow: 1; font-size: 15px; font-weight: 600">Ravi</span><span style="font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums">₹480</span></label>
+      <label style="display: flex; align-items: center; gap: 12px; padding: 0 14px; height: 52px"><input type="checkbox" checked style="width: 20px; height: 20px; accent-color: #5B3FD6"><span style="flex-grow: 1; font-size: 15px; font-weight: 600">Arjun</span><span style="font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums">₹480</span></label>
+    </div>
+  </div>
+
+  <div style="position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 20px 22px; border-top: 1px solid #E6E3EF; background: #FFFFFF; display: flex; align-items: center; justify-content: space-between">
+    <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: #4329B0">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>
+      ₹2,400 of ₹2,400 assigned
+    </div>
+    <span style="font-size: 13px; color: #5E5A73">5 people</span>
+  </div>
+</div>
+</body>
+</html>
