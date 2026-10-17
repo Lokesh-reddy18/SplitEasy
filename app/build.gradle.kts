@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.kover)
+    alias(libs.plugins.ktlint)
 }
 
 android {
@@ -20,7 +22,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
         }
     }
 
@@ -31,6 +36,38 @@ android {
 
     buildFeatures {
         compose = true
+    }
+
+    lint {
+        // Errors fail the build; warnings are reported but don't block it.
+        abortOnError = true
+        warningsAsErrors = false
+    }
+}
+
+ktlint {
+    version.set(libs.versions.ktlint)
+    android.set(true)
+}
+
+kover {
+    reports {
+        filters {
+            includes {
+                // PRD metric: split and settlement logic at 90% coverage or higher.
+                packages(
+                    "com.lokeshreddy.spliteasy.domain.money",
+                    "com.lokeshreddy.spliteasy.domain.split",
+                    "com.lokeshreddy.spliteasy.domain.balance",
+                    "com.lokeshreddy.spliteasy.domain.settlement",
+                )
+            }
+        }
+        verify {
+            rule("Split and settlement logic") {
+                minBound(90)
+            }
+        }
     }
 }
 
@@ -47,4 +84,6 @@ dependencies {
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
+    testImplementation(libs.junit)
 }

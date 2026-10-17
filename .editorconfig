@@ -1,0 +1,19 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 4
+
+[*.{kt,kts}]
+ktlint_code_style = android_studio
+# Composable functions are named like types (PascalCase).
+ktlint_function_naming_ignore_when_annotated_with = Composable
+# Trailing commas keep diffs small (common Compose style).
+ij_kotlin_allow_trailing_comma = true
+ij_kotlin_allow_trailing_comma_on_call_site = true
+
+[*.{yml,yaml,toml}]
+indent_size = 2
