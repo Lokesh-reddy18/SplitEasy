@@ -1,4 +1,20 @@
 <resources>
     <string name="app_name">SplitEasy</string>
-    <string name="placeholder_message">SplitEasy is being built. Milestone 1: foundations.</string>
+    <string name="placeholder_message">SplitEasy is being built. Milestone 2: core screens.</string>
+
+    <!-- Common actions -->
+    <string name="action_back">Back</string>
+    <string name="action_close">Close</string>
+
+    <!-- Expense categories (Q12) -->
+    <string name="category_food">Food</string>
+    <string name="category_groceries">Groceries</string>
+    <string name="category_travel">Travel</string>
+    <string name="category_fuel">Fuel</string>
+    <string name="category_stay">Stay</string>
+    <string name="category_rent">Rent</string>
+    <string name="category_utilities">Utilities</string>
+    <string name="category_shopping">Shopping</string>
+    <string name="category_entertainment">Entertainment</string>
+    <string name="category_other">Other</string>
 </resources>

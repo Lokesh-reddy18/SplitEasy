@@ -1,3 +1,5 @@
 <resources>
     <color name="ic_launcher_background">#5B3FD6</color>
+    <!-- Matches the background token so there's no flash before Compose draws. -->
+    <color name="window_background">#F6F5FB</color>
 </resources>

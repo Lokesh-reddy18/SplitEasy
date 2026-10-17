@@ -18,7 +18,7 @@ Each screen is here twice:
 | 09 | Profile and settings | FR-1, FR-10 | P0 |
 | 10 | Home-screen widget (Glance) | FR-13 | P1 |
 
-Screens added in Milestone 2 (Q18). They were drawn in the same style and rendered with the web font. **Status: waiting for approval.**
+Screens added in Milestone 2 (Q18). They were drawn in the same style and rendered with the web font. **Status: approved.**
 
 | # | Screen | Decision references | Priority |
 | --- | --- | --- | --- |
@@ -65,7 +65,7 @@ Profile's "Reminders" and "Export data" rows are P2: hide them in v1.
 Type: Plus Jakarta Sans (400–800). Screen title 26/800, section title 17/700, body 15/600, caption 13/500, big amount 38–40/800 with tabular numbers.
 Shape: cards 16–20 dp corners, buttons 12–16 dp, FAB 18 dp. Touch targets at least 44–48 dp.
 
-## Dark palette (Q19, waiting for approval)
+## Dark palette (Q19, approved)
 
 Same meaning as the light theme: violet means you are owed, amber means you owe. Every text pair below was checked
 at 4.5:1 contrast or better (WCAG AA). See `20-dark-theme.html`.
