@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    namespace = "com.lokeshreddy.spliteasy"
+    namespace = "com.split.easy"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.lokeshreddy.spliteasy"
+        applicationId = "com.split.easy"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
@@ -62,10 +62,10 @@ kover {
             includes {
                 // PRD metric: split and settlement logic at 90% coverage or higher.
                 packages(
-                    "com.lokeshreddy.spliteasy.domain.money",
-                    "com.lokeshreddy.spliteasy.domain.split",
-                    "com.lokeshreddy.spliteasy.domain.balance",
-                    "com.lokeshreddy.spliteasy.domain.settlement",
+                    "com.split.easy.domain.money",
+                    "com.split.easy.domain.split",
+                    "com.split.easy.domain.balance",
+                    "com.split.easy.domain.settlement",
                 )
             }
         }

@@ -77,7 +77,7 @@ These come up when the PRD data model and the review answers are turned into an 
 ### M1-Q8. How the project is created
 - **Options:**
   - a) I write the Gradle files by hand (small, and every line can be explained in an interview) and download the Gradle wrapper. This needs network access, which will show an approval prompt. *(Recommended)*
-  - b) You create it in Android Studio (New Project → Empty Activity, `com.lokeshreddy.spliteasy`, minSdk 26, Kotlin DSL with a version catalog), and I adapt it.
+  - b) You create it in Android Studio (New Project → Empty Activity, `com.split.easy`, minSdk 26, Kotlin DSL with a version catalog), and I adapt it.
 - **Answer:** a (recommended).
 
 ### M1-Q9. Tools not listed in the stack
@@ -143,7 +143,7 @@ SplitEasy/
     └── src/
         ├── main/
         │   ├── AndroidManifest.xml
-        │   └── java/com/lokeshreddy/spliteasy/
+        │   └── java/com/split/easy/
         │       ├── SplitEasyApp.kt            # @HiltAndroidApp
         │       ├── MainActivity.kt            # placeholder screen in M1
         │       ├── domain/                    # pure Kotlin, no Android imports
@@ -164,7 +164,7 @@ SplitEasy/
         │       │   └── DatabaseModule.kt      # provides the database and DAOs
         │       ├── ui/                        # M2
         │       └── sync/                      # M4
-        └── test/java/com/lokeshreddy/spliteasy/
+        └── test/java/com/split/easy/
             ├── domain/...                     # JUnit tests, one file per class
             └── data/local/...                 # DAO tests (Robolectric, in-memory Room, Turbine)
 ```

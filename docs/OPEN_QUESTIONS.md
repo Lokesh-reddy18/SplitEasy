@@ -201,7 +201,7 @@ The design sample data is consistent: Coorg trip total ₹24,000, your share ₹
 - **Options:**
   - a) Use `com.lokeshreddy.spliteasy`, a single `:app` module, and set up git with `google-services.json` in `.gitignore`. *(Recommended)*
   - b) A different application ID or setup (give it in the answer).
-- **Answer:** **a.** Use `com.lokeshreddy.spliteasy`, a single `:app` module, and set up git with `google-services.json` in `.gitignore`. Also ignore `local.properties` and keystore files. Add a `google-services.json.example` with placeholder values so anyone cloning the repo knows which file to add.
+- **Answer:** **a.** Use `com.lokeshreddy.spliteasy`, a single `:app` module, and set up git with `google-services.json` in `.gitignore`. Also ignore `local.properties` and keystore files. Add a `google-services.json.example` with placeholder values so anyone cloning the repo knows which file to add. **Update (during M1):** the package name and application ID were changed to `com.split.easy`.
 
 ## E. Small points (answered)
 - **Terms and Privacy Policy links:** Point both to one `PRIVACY.md` in the GitHub repo for v1 (what data is stored, that receipts are read on the device, how to delete your account). Move it to Firebase Hosting later if needed.
