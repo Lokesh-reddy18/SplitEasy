@@ -3,6 +3,12 @@ package com.split.easy.di
 import android.content.Context
 import androidx.room.Room
 import com.split.easy.data.local.SplitEasyDatabase
+import com.split.easy.data.local.dao.ExpenseDao
+import com.split.easy.data.local.dao.GroupDao
+import com.split.easy.data.local.dao.GroupEventDao
+import com.split.easy.data.local.dao.MemberDao
+import com.split.easy.data.local.dao.SettlementDao
+import com.split.easy.data.local.dao.SyncStatusDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,4 +24,22 @@ object DatabaseModule {
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): SplitEasyDatabase =
         Room.databaseBuilder(context, SplitEasyDatabase::class.java, SplitEasyDatabase.NAME).build()
+
+    @Provides
+    fun provideGroupDao(database: SplitEasyDatabase): GroupDao = database.groupDao()
+
+    @Provides
+    fun provideMemberDao(database: SplitEasyDatabase): MemberDao = database.memberDao()
+
+    @Provides
+    fun provideExpenseDao(database: SplitEasyDatabase): ExpenseDao = database.expenseDao()
+
+    @Provides
+    fun provideSettlementDao(database: SplitEasyDatabase): SettlementDao = database.settlementDao()
+
+    @Provides
+    fun provideGroupEventDao(database: SplitEasyDatabase): GroupEventDao = database.groupEventDao()
+
+    @Provides
+    fun provideSyncStatusDao(database: SplitEasyDatabase): SyncStatusDao = database.syncStatusDao()
 }

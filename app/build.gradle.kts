@@ -39,6 +39,15 @@ android {
         compose = true
     }
 
+    testOptions {
+        // Robolectric runs the Room DAO tests on the JVM, without an emulator.
+        unitTests.isIncludeAndroidResources = true
+        unitTests.all {
+            // Robolectric reads JDK internals for file descriptors (robolectric/robolectric#11434).
+            it.jvmArgs("--add-exports", "java.base/jdk.internal.access=ALL-UNNAMED")
+        }
+    }
+
     lint {
         // Errors fail the build; warnings are reported but don't block it.
         abortOnError = true
@@ -96,4 +105,8 @@ dependencies {
     ksp(libs.androidx.room.compiler)
 
     testImplementation(libs.junit)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.turbine)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.androidx.test.core)
 }
