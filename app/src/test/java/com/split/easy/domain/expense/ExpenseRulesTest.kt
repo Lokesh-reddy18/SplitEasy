@@ -1,7 +1,7 @@
 package com.split.easy.domain.expense
 
-import com.split.easy.domain.model.Member
 import com.split.easy.domain.money.MAX_AMOUNT_PAISE
+import com.split.easy.domain.testMember
 import java.time.LocalDate
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -11,8 +11,8 @@ import org.junit.Test
 class ExpenseRulesTest {
 
     private val today = LocalDate.of(2026, 10, 17)
-    private val you = Member("m-you", userId = "uid-you")
-    private val priya = Member("m-priya", userId = "uid-priya")
+    private val you = testMember("m-you", userId = "uid-you")
+    private val priya = testMember("m-priya", userId = "uid-priya")
 
     @Test
     fun `only the creator can edit, and not in an archived group`() {

@@ -23,7 +23,9 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): SplitEasyDatabase =
-        Room.databaseBuilder(context, SplitEasyDatabase::class.java, SplitEasyDatabase.NAME).build()
+        Room.databaseBuilder(context, SplitEasyDatabase::class.java, SplitEasyDatabase.NAME)
+            .addMigrations(*SplitEasyDatabase.MIGRATIONS)
+            .build()
 
     @Provides
     fun provideGroupDao(database: SplitEasyDatabase): GroupDao = database.groupDao()

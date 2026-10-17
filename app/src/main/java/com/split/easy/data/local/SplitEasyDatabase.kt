@@ -26,7 +26,7 @@ import com.split.easy.data.local.entity.SettlementEntity
         SettlementEntity::class,
         GroupEventEntity::class,
     ],
-    version = 1,
+    version = 2,
     exportSchema = true,
 )
 @TypeConverters(Converters::class)
@@ -45,5 +45,7 @@ abstract class SplitEasyDatabase : RoomDatabase() {
 
     companion object {
         const val NAME = "spliteasy.db"
+
+        val MIGRATIONS = arrayOf(MIGRATION_1_2)
     }
 }

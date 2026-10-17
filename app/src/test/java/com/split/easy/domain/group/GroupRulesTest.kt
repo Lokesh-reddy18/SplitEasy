@@ -5,6 +5,8 @@ import com.split.easy.domain.model.Member
 import com.split.easy.domain.model.Settlement
 import com.split.easy.domain.model.SettlementMethod
 import com.split.easy.domain.model.SettlementStatus
+import com.split.easy.domain.testMember
+import com.split.easy.domain.testSettlement
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -12,17 +14,17 @@ import org.junit.Test
 
 class GroupRulesTest {
 
-    private val creator = Member("m-creator", userId = "uid-creator")
-    private val member = Member("m-member", userId = "uid-member")
-    private val guest = Member("m-guest", userId = null)
-    private val group = Group("g1", createdByUserId = "uid-creator")
+    private val creator = testMember("m-creator", userId = "uid-creator")
+    private val member = testMember("m-member", userId = "uid-member")
+    private val guest = testMember("m-guest", userId = null)
+    private val group = Group("g1", name = "Coorg trip", createdByUserId = "uid-creator")
     private val archived = group.copy(isArchived = true)
 
     private val settled = mapOf(creator.id to 0L, member.id to 0L, guest.id to 0L)
     private val unsettled = mapOf(creator.id to 500L, member.id to -300L, guest.id to -200L)
 
     private fun pending(from: Member, to: Member) =
-        Settlement("s", from.id, to.id, 100, SettlementStatus.PENDING, SettlementMethod.UPI)
+        testSettlement(from.id, to.id, 100, SettlementStatus.PENDING, id = "s")
 
     @Test
     fun `creator is identified by user id`() {

@@ -20,6 +20,9 @@ interface SettlementDao {
     )
     fun observeSettlements(groupId: String): Flow<List<SettlementEntity>>
 
+    @Query("SELECT * FROM settlements WHERE id = :id")
+    suspend fun getSettlement(id: String): SettlementEntity?
+
     /** Confirm or reject a pending settlement. */
     @Query(
         "UPDATE settlements SET status = :status, updatedAt = :updatedAt, syncState = 'PENDING' " +

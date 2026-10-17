@@ -1,7 +1,7 @@
 package com.split.easy.domain.balance
 
-import com.split.easy.domain.model.Expense
 import com.split.easy.domain.model.SettlementStatus
+import com.split.easy.domain.testExpense
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -48,12 +48,7 @@ class BalanceCalculatorTest {
     @Test
     fun `payer who isn't in the split is owed the whole amount`() {
         val expense =
-            Expense(
-                "x",
-                paidByMemberId = "a",
-                amountPaise = 1_000,
-                sharesPaise = mapOf("b" to 1_000),
-            )
+            testExpense("x", paidBy = "a", amountPaise = 1_000, sharesPaise = mapOf("b" to 1_000))
         val net = BalanceCalculator.netBalances(listOf("a", "b"), listOf(expense), emptyList())
         assertEquals(mapOf("a" to 1_000L, "b" to -1_000L), net)
     }

@@ -27,10 +27,16 @@ interface ExpenseDao {
     )
     fun observeFeed(groupId: String): Flow<List<ExpenseEntity>>
 
-    /** All live expenses with their shares, for working out balances. */
+    /** All live expenses with their shares, newest first: the feed and the balance inputs. */
     @Transaction
-    @Query("SELECT * FROM expenses WHERE groupId = :groupId AND isDeleted = 0")
+    @Query(
+        "SELECT * FROM expenses WHERE groupId = :groupId AND isDeleted = 0 " +
+            "ORDER BY date DESC, createdAt DESC",
+    )
     fun observeWithShares(groupId: String): Flow<List<ExpenseWithShares>>
+
+    @Query("SELECT * FROM expenses WHERE id = :id")
+    suspend fun getExpense(id: String): ExpenseEntity?
 
     @Transaction
     @Query("SELECT * FROM expenses WHERE id = :id AND isDeleted = 0")

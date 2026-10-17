@@ -2,15 +2,16 @@ package com.split.easy.domain.balance
 
 import com.split.easy.domain.model.Expense
 import com.split.easy.domain.model.Settlement
-import com.split.easy.domain.model.SettlementMethod
 import com.split.easy.domain.model.SettlementStatus
+import com.split.easy.domain.testExpense
+import com.split.easy.domain.testSettlement
 
 /** Rupees to paise, to keep test data readable. */
 fun rupees(amount: Long): Long = amount * 100
 
 fun equalExpense(id: String, paidBy: String, totalRupees: Long, members: List<String>): Expense {
     val share = rupees(totalRupees) / members.size
-    return Expense(id, paidBy, rupees(totalRupees), members.associateWith { share })
+    return testExpense(id, paidBy, rupees(totalRupees), members.associateWith { share })
 }
 
 fun settlement(
@@ -19,15 +20,7 @@ fun settlement(
     amountRupees: Long,
     status: SettlementStatus = SettlementStatus.CONFIRMED,
     isDeleted: Boolean = false,
-) = Settlement(
-    id = "$from-$to-$amountRupees-$status",
-    fromMemberId = from,
-    toMemberId = to,
-    amountPaise = rupees(amountRupees),
-    status = status,
-    method = SettlementMethod.UPI,
-    isDeleted = isDeleted,
-)
+): Settlement = testSettlement(from, to, rupees(amountRupees), status, isDeleted = isDeleted)
 
 /**
  * The Coorg trip from the designs (03-group-detail, 05-balances).

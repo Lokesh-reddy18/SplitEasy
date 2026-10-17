@@ -39,6 +39,12 @@ android {
         compose = true
     }
 
+    sourceSets {
+        // MigrationTestHelper reads the exported schemas as assets. Robolectric uses the debug
+        // assets, so they're added to debug builds only; release APKs don't include them.
+        getByName("debug").assets.srcDir("$projectDir/schemas")
+    }
+
     testOptions {
         // Robolectric runs the Room DAO tests on the JVM, without an emulator.
         unitTests.isIncludeAndroidResources = true
@@ -113,6 +119,7 @@ dependencies {
     testImplementation(libs.turbine)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.androidx.test.core)
+    testImplementation(libs.androidx.room.testing)
     testImplementation(platform(libs.androidx.compose.bom))
     testImplementation(libs.androidx.compose.ui.test.junit4)
 }

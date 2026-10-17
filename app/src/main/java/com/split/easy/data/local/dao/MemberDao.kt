@@ -26,6 +26,15 @@ interface MemberDao {
     @Query("SELECT * FROM members WHERE groupId = :groupId ORDER BY createdAt, id")
     fun observeAllMembers(groupId: String): Flow<List<MemberEntity>>
 
+    @Query("SELECT * FROM members WHERE id = :id")
+    suspend fun getMember(id: String): MemberEntity?
+
+    @Query(
+        "UPDATE members SET upiId = :upiId, updatedAt = :updatedAt, syncState = 'PENDING' " +
+            "WHERE id = :id",
+    )
+    suspend fun updateUpiId(id: String, upiId: String?, updatedAt: Long)
+
     /** The user's member row in every group they're in (used to update their UPI ID, F2). */
     @Query("SELECT * FROM members WHERE userId = :userId AND isDeleted = 0")
     suspend fun getMembershipsOfUser(userId: String): List<MemberEntity>

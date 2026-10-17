@@ -8,6 +8,8 @@ import com.split.easy.domain.model.SettlementStatus.CONFIRMED
 import com.split.easy.domain.model.SettlementStatus.PENDING
 import com.split.easy.domain.model.SettlementStatus.REJECTED
 import com.split.easy.domain.money.MAX_AMOUNT_PAISE
+import com.split.easy.domain.testMember
+import com.split.easy.domain.testSettlement
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -16,18 +18,18 @@ import org.junit.Test
 
 class SettlementRulesTest {
 
-    private val you = Member("you", userId = "uid-you")
-    private val priya = Member("priya", userId = "uid-priya")
-    private val meera = Member("meera", userId = "uid-meera")
-    private val ravi = Member("ravi", userId = null) // guest
-    private val arjun = Member("arjun", userId = null) // guest
+    private val you = testMember("you", userId = "uid-you")
+    private val priya = testMember("priya", userId = "uid-priya")
+    private val meera = testMember("meera", userId = "uid-meera")
+    private val ravi = testMember("ravi", userId = null) // guest
+    private val arjun = testMember("arjun", userId = null) // guest
 
     private fun settlement(
         from: Member,
         to: Member,
         status: SettlementStatus,
         isDeleted: Boolean = false,
-    ) = Settlement("s1", from.id, to.id, 600_00, status, SettlementMethod.CASH, isDeleted)
+    ) = testSettlement(from.id, to.id, 600_00, status, SettlementMethod.CASH, isDeleted, id = "s1")
 
     // Starting status (Q2, Q3, F3)
 
