@@ -1,6 +1,6 @@
 # Milestone 2 — Core screens and settle-up: plan
 
-**Status:** Draft, waiting for your approval. No code until it's approved and the open questions in section 3 are answered.
+**Status:** Approved. All M2 questions answered "recommended", with additions to M2-Q4 and M2-Q8.
 **PRD phase:** Core UI and settle-up, weeks 2–3: "Compose screens, balances, UPI".
 **Sources:** `docs/PRD.md`, `docs/OPEN_QUESTIONS.md`, `docs/designs/`, `docs/plans/M1-foundations.md` (section 9), `CLAUDE.md`.
 
@@ -76,48 +76,48 @@ The Firebase console setup is yours to do, and it can happen any time before M4.
 - **Options:**
   - a) M2 uses a fixed local stand-in user (uid `local-user`, name "You"). At the first real sign-in in M4, the M2 test data is wiped, so there's no migration code. Nobody uses the app before M4, so nothing real is lost. *(Recommended)*
   - b) Build a temporary "What's your name?" screen now and migrate the data at sign-in in M4.
-- **Answer:**
+- **Answer:** **a.**
 
 ### M2-Q2. The Insights tab before M5
 - **Options:**
   - a) Hide it until M5, so the bottom bar has Groups and Profile only. *(Recommended)*
   - b) Show it with a "Coming soon" screen.
-- **Answer:**
+- **Answer:** **a.**
 
 ### M2-Q3. Is a description required on an expense?
 - **Problem:** The feed uses the description as the row title ("Dinner at Raintree").
 - **Options:**
   - a) Required, trimmed, at most 60 characters. *(Recommended)*
   - b) Optional; an empty one shows the category name ("Food").
-- **Answer:**
+- **Answer:** **a.**
 
 ### M2-Q4. Order of groups on Groups home
 - **Problem:** The design's order (Flat 4B, Coorg trip, Office lunches, Home) isn't alphabetical. M1 sorts by name as a placeholder.
 - **Options:**
   - a) Most recent activity first: the latest expense, settlement or group change. *(Recommended)*
   - b) Alphabetical.
-- **Answer:**
+- **Answer:** **a, with an addition.** Store `lastActivityAt` on each group and update it whenever an expense, settlement or group change is saved. Groups home then sorts with a simple query, and the field syncs with the group in M4. Working it out from every table on each load would be slower and harder to keep correct.
 
 ### M2-Q5. Sync indicators while there's no sync
 - **Problem:** Until M4, every change stays PENDING. The offline banner ("2 changes waiting to sync"), the "Not synced" badges and Profile's sync card would show on everything, all the time.
 - **Options:**
   - a) Build them now but hide them behind one switch that M4 turns on. *(Recommended)*
   - b) Show them from M2, even though nothing ever syncs yet.
-- **Answer:**
+- **Answer:** **a.**
 
 ### M2-Q6. Paying someone who has no UPI ID
 - **Problem:** A real user (not a guest) may not have added a UPI ID yet, and only they can add it (Q1).
 - **Options:**
   - a) Disable Pay with the message "Priya hasn't added a UPI ID yet", and keep "Record payment" available. For a guest, offer "Add Ravi's UPI ID" instead, which any member can do (F1). *(Recommended)*
   - b) Hide Pay completely for that person.
-- **Answer:**
+- **Answer:** **a.**
 
 ### M2-Q7. When to show the first-time UPI ID prompt
 - **Problem:** Q18 says "the first time the user is asked to pay or receive". Paying doesn't need your own UPI ID; only receiving does.
 - **Options:**
   - a) Show a dismissible card on Group detail and Balances when you're owed money and have no UPI ID: "Add your UPI ID so friends can pay you". Once dismissed, it isn't shown again in that group; the same option stays in Profile. *(Recommended)*
   - b) A one-time bottom sheet the first time you're owed money anywhere.
-- **Answer:**
+- **Answer:** **a.**
 
 ### M2-Q8. Add expense defaults
 - **Recommended:**
@@ -126,13 +126,13 @@ The Firebase console setup is yours to do, and it can happen any time before M4.
   - Date: today.
   - Split: Equally, with every current member ticked.
   - Leaving with unsaved changes asks "Discard this expense?".
-- **Answer:**
+- **Answer:** **Recommended, with an addition.** When the screen opens, the cursor goes in the Amount field with the number keypad open. Amount is the one thing every expense needs, so this saves a tap every time.
 
 ### M2-Q9. Demo data
 - **Options:**
   - a) A "Load demo data" button that exists only in debug builds (in Profile). It creates the four groups and the Coorg trip expenses from the designs, for testing and screenshots. *(Recommended)*
   - b) No demo data.
-- **Answer:**
+- **Answer:** **a.**
 
 ### M2-Q10. Libraries not in the stack yet
 - **Problem:** M2 needs three things the stack doesn't list:
@@ -142,7 +142,7 @@ The Firebase console setup is yours to do, and it can happen any time before M4.
 - **Options:**
   - a) Add DataStore and the serialization plugin, and use vector drawables made from the design's icons. *(Recommended)*
   - b) Something different (describe it).
-- **Answer:**
+- **Answer:** **a.**
 
 ---
 
@@ -190,6 +190,9 @@ Each step is one focused commit (or a few small ones). `./gradlew ktlintCheck li
 ### Step 3 — Repositories, mapping and the current user
 - Group, Member, Expense, Settlement and GroupEvent repositories; entity ↔ domain mappers; `CurrentUserProvider` (M2-Q1); `SyncScheduler` interface with a no-op version; use cases that combine balances, suggestions, payable amounts and rules.
 - Guest UPI ID changes write the member update and its `GroupEvent` in one Room transaction.
+- `GroupEntity.lastActivityAt` (M2-Q4): every save of an expense, settlement or group change updates it in the same transaction. The schema moves to version 2 with a Room auto-migration, and the v2 schema JSON is committed.
+  - Bumping `lastActivityAt` does **not** change the group's `updatedAt`. Otherwise adding an expense on one phone could overwrite a rename made on another under last-write-wins.
+  - In M4 it syncs as its own field, keeping the larger value.
 - **Commit:** `feat(data): add repositories that write locally first`
 
 ### Step 4 — Navigation and Groups home (02)
@@ -206,6 +209,7 @@ Each step is one focused commit (or a few small ones). `./gradlew ktlintCheck li
 
 ### Step 6 — Add, edit and view an expense (04)
 - Amount, description, paid by, category, date, and the three split types with live validation and the "₹X of ₹Y assigned" footer.
+- Opens with the cursor in Amount and the number keypad showing (M2-Q8).
 - Expense detail, with Edit and Delete for the creator only, and a delete confirmation.
 - **Commit:** `feat(ui): add expense editor and expense detail`
 

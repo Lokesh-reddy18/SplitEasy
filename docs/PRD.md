@@ -166,7 +166,7 @@ The UI never waits on the network: repositories save to Room, the UI updates fro
 
 | Entity | Key fields |
 | --- | --- |
-| GroupEntity | id (UUID), name, createdBy, updatedAt, isArchived, syncState, isDeleted |
+| GroupEntity | id (UUID), name, createdBy, updatedAt, lastActivityAt (latest expense, settlement or group change; orders Groups home), isArchived, syncState, isDeleted |
 | MemberEntity | id, groupId, displayName, userId (optional), upiId (optional), createdAt (member order: join time, then id), updatedAt, syncState, isDeleted |
 | ExpenseEntity | id, groupId, paidBy, amountPaise (Long), description, category, date, splitType, createdBy, createdAt (orders same-day expenses), updatedAt, syncState, isDeleted |
 | ExpenseShareEntity | expenseId, memberId, sharePaise (Long), percentBasisPoints (optional, percentage splits only: 33.33% = 3333); synced inside its expense's Firestore document |
