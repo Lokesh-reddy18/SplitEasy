@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Group settings</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#5B3FD6}a:hover{color:#4329B0}
+</style>
+</head>
+<body>
+<!-- Group settings (FR-2, F5, Q13). Shown to the group creator. Members with a non-zero balance show "Settle ₹X first"
+     instead of Remove. A settled member shows a "Remove" button there (owe colour).
+     Other members see "Leave group" in the GROUP card instead of the creator note. -->
+<div style="width: 390px; height: 844px; box-sizing: border-box; position: relative; overflow: hidden; background: #F6F5FB; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #17142B; display: flex; flex-direction: column">
+  <header style="display: flex; align-items: center; gap: 4px; padding: 12px 8px 4px">
+    <a href="03-group-detail.html" aria-label="Back" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #17142B"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></a>
+    <div><div style="font-size: 18px; font-weight: 700">Group settings</div><div style="font-size: 13px; color: #5E5A73">Coorg trip</div></div>
+  </header>
+
+  <h2 style="margin: 14px 20px 8px; font-size: 13px; font-weight: 700; color: #5E5A73; letter-spacing: 0.4px">NAME</h2>
+  <div style="margin: 0 20px; background: #FFFFFF; border-radius: 16px; border: 1px solid #E6E3EF">
+    <button style="width: 100%; border: none; background: transparent; font-family: inherit; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; height: 52px; font-size: 15px; color: #17142B"><span style="font-weight: 600">Coorg trip</span><span style="font-size: 14px; font-weight: 700; color: #5B3FD6">Rename</span></button>
+  </div>
+
+  <h2 style="margin: 20px 20px 8px; font-size: 13px; font-weight: 700; color: #5E5A73; letter-spacing: 0.4px">MEMBERS · 5</h2>
+  <div style="margin: 0 20px; background: #FFFFFF; border-radius: 16px; border: 1px solid #E6E3EF; display: flex; flex-direction: column">
+    <div style="display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid #F0EEF5">
+      <div style="width: 36px; height: 36px; border-radius: 18px; background: #ECE8FD; color: #4329B0; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center">AR</div>
+      <div style="flex-grow: 1"><div style="font-size: 15px; font-weight: 600">You</div><div style="font-size: 12px; color: #5E5A73">Group creator · ananya.r@okaxis</div></div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid #F0EEF5">
+      <div style="width: 36px; height: 36px; border-radius: 18px; background: #FEF1E2; color: #8A4006; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center">PS</div>
+      <div style="flex-grow: 1"><div style="font-size: 15px; font-weight: 600">Priya</div><div style="font-size: 12px; color: #5E5A73">priya.s@okicici</div></div>
+      <span style="font-size: 12px; color: #5E5A73; text-align: right">Settle ₹300 first</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid #F0EEF5">
+      <div style="width: 36px; height: 36px; border-radius: 18px; background: #ECE8FD; color: #4329B0; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center">ME</div>
+      <div style="flex-grow: 1"><div style="font-size: 15px; font-weight: 600">Meera</div><div style="font-size: 12px; color: #5E5A73">meera.n@okhdfcbank</div></div>
+      <span style="font-size: 12px; color: #5E5A73; text-align: right">Settle ₹2,000 first</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid #F0EEF5">
+      <div style="width: 36px; height: 36px; border-radius: 18px; background: #E0F2F5; color: #0E7490; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center">RK</div>
+      <div style="flex-grow: 1"><div style="font-size: 15px; font-weight: 600">Ravi</div><div style="font-size: 12px; color: #5E5A73">ravi.k@ybl</div></div>
+      <span style="font-size: 12px; color: #5E5A73; text-align: right">Settle ₹1,700 first</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid #F0EEF5">
+      <div style="width: 36px; height: 36px; border-radius: 18px; background: #F0EEF5; color: #403B55; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center">AJ</div>
+      <div style="flex-grow: 1"><div style="font-size: 15px; font-weight: 600">Arjun <span style="font-size: 11px; font-weight: 700; color: #403B55; background: #F0EEF5; padding: 2px 6px; border-radius: 6px">Guest</span></div><div style="font-size: 12px; color: #5E5A73">arjun@oksbi · <a href="17-guest-upi-id.html" style="font-weight: 700; text-decoration: none">Edit UPI ID</a></div></div>
+      <span style="font-size: 12px; color: #5E5A73; text-align: right">Settle ₹1,800 first</span>
+    </div>
+    <button style="border: none; background: transparent; font-family: inherit; display: flex; align-items: center; gap: 12px; padding: 0 16px; height: 52px; font-size: 15px; font-weight: 700; color: #5B3FD6">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>Add a guest
+    </button>
+  </div>
+
+  <h2 style="margin: 20px 20px 8px; font-size: 13px; font-weight: 700; color: #5E5A73; letter-spacing: 0.4px">GROUP</h2>
+  <div style="margin: 0 20px; background: #FFFFFF; border-radius: 16px; border: 1px solid #E6E3EF">
+    <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px">
+      <div style="flex-grow: 1"><div style="font-size: 15px; font-weight: 600; color: #5E5A73">Archive group</div><div style="font-size: 12px; color: #5E5A73">Settle ₹3,500 and resolve 1 pending payment first</div></div>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B5B1C6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="5" rx="1.5"></rect><path d="M5 9v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9"></path><path d="M10 13h4"></path></svg>
+    </div>
+  </div>
+  <p style="margin: 10px 24px 0; font-size: 12px; line-height: 1.5; color: #5E5A73">As the creator you can't leave the group. Archive it once everyone has settled up.</p>
+</div>
+</body>
+</html>

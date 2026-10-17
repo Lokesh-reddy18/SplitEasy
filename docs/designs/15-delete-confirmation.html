@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Delete confirmation</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#5B3FD6}a:hover{color:#4329B0}
+</style>
+</head>
+<body>
+<!-- Delete confirmation (Q18). Same dialog for undoing a settlement:
+     "Undo this payment? Ravi paid you ₹1,200 on 10 Oct. Balances go back to how they were." with Cancel / Undo. -->
+<div style="width: 390px; height: 844px; box-sizing: border-box; position: relative; overflow: hidden; background: #5F5A72; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #17142B">
+  <div style="padding: 24px 20px; color: #E6E3EF; opacity: 0.55">
+    <div style="font-size: 18px; font-weight: 700">Expense</div>
+    <div style="margin-top: 24px; height: 160px; border-radius: 18px; background: #77728A"></div>
+    <div style="margin-top: 16px; height: 250px; border-radius: 16px; background: #77728A"></div>
+  </div>
+
+  <section role="alertdialog" aria-label="Delete this expense?" style="position: absolute; left: 28px; right: 28px; top: 270px; background: #FFFFFF; border-radius: 22px; padding: 22px 20px 18px">
+    <h2 style="margin: 0; font-size: 19px; font-weight: 800">Delete this expense?</h2>
+    <p style="margin: 10px 0 0; font-size: 14px; line-height: 1.55; color: #403B55">Dinner at Raintree · ₹2,400. Balances in Coorg trip update for everyone.</p>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 20px">
+      <button style="height: 48px; border-radius: 12px; border: 1px solid #E6E3EF; background: #FFFFFF; font-family: inherit; font-size: 15px; font-weight: 700; color: #17142B">Cancel</button>
+      <button style="height: 48px; border-radius: 12px; border: none; background: #B45309; font-family: inherit; font-size: 15px; font-weight: 700; color: #FFFFFF">Delete</button>
+    </div>
+  </section>
+</div>
+</body>
+</html>

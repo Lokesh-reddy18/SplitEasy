@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Create group</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#5B3FD6}a:hover{color:#4329B0}
+</style>
+</head>
+<body>
+<!-- Create group (FR-2, Q18). Opened from "New group" on Groups home. You are added as the creator. -->
+<div style="width: 390px; height: 844px; box-sizing: border-box; position: relative; overflow: hidden; background: #FFFFFF; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #17142B; display: flex; flex-direction: column">
+  <header style="display: flex; align-items: center; gap: 4px; padding: 12px 12px 4px 8px">
+    <a href="02-groups-home.html" aria-label="Close" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #17142B"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></a>
+    <div style="flex-grow: 1; font-size: 18px; font-weight: 700">New group</div>
+    <a href="03-group-detail.html" style="height: 40px; padding: 0 18px; border-radius: 12px; background: #5B3FD6; color: #FFFFFF; text-decoration: none; display: flex; align-items: center; font-size: 14px; font-weight: 700">Create</a>
+  </header>
+
+  <div style="padding: 16px 20px 0; display: flex; flex-direction: column; gap: 18px">
+    <div>
+      <label for="name" style="font-size: 13px; font-weight: 600; color: #5E5A73">Group name</label>
+      <input id="name" value="Coorg trip" style="margin-top: 4px; box-sizing: border-box; width: 100%; height: 48px; border: 2px solid #5B3FD6; border-radius: 12px; padding: 0 14px; font-family: inherit; font-size: 15px; font-weight: 600; color: #17142B">
+    </div>
+
+    <div>
+      <div style="font-size: 13px; font-weight: 600; color: #5E5A73">Members</div>
+      <p style="margin: 2px 0 8px; font-size: 13px; line-height: 1.45; color: #5E5A73">Add people by name. They're guests until they join with an invite link.</p>
+      <div style="border: 1px solid #E6E3EF; border-radius: 14px; display: flex; flex-direction: column">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 0 14px; height: 56px; border-bottom: 1px solid #F0EEF5">
+          <div style="width: 36px; height: 36px; border-radius: 18px; background: #ECE8FD; color: #4329B0; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center">AR</div>
+          <div style="flex-grow: 1"><div style="font-size: 15px; font-weight: 600">You</div><div style="font-size: 12px; color: #5E5A73">Group creator</div></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; padding: 0 4px 0 14px; height: 56px; border-bottom: 1px solid #F0EEF5">
+          <div style="width: 36px; height: 36px; border-radius: 18px; background: #FEF1E2; color: #8A4006; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center">PR</div>
+          <div style="flex-grow: 1"><div style="font-size: 15px; font-weight: 600">Priya</div><div style="font-size: 12px; color: #5E5A73">Guest</div></div>
+          <button aria-label="Remove Priya" style="width: 48px; height: 48px; border: none; background: transparent; color: #5E5A73"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></button>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; padding: 0 4px 0 14px; height: 56px; border-bottom: 1px solid #F0EEF5">
+          <div style="width: 36px; height: 36px; border-radius: 18px; background: #E0F2F5; color: #0E7490; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center">ME</div>
+          <div style="flex-grow: 1"><div style="font-size: 15px; font-weight: 600">Meera</div><div style="font-size: 12px; color: #5E5A73">Guest</div></div>
+          <button aria-label="Remove Meera" style="width: 48px; height: 48px; border: none; background: transparent; color: #5E5A73"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></button>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; padding: 8px 8px 8px 14px">
+          <input aria-label="Name" placeholder="Name, e.g. Ravi" style="flex-grow: 1; height: 44px; border: none; outline: none; font-family: inherit; font-size: 15px; color: #17142B; background: transparent">
+          <button style="height: 40px; padding: 0 14px; border-radius: 10px; border: 1px solid #D6CEFB; background: #FFFFFF; font-family: inherit; font-size: 14px; font-weight: 700; color: #4329B0; display: flex; align-items: center; gap: 6px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>Add
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 20px 22px; border-top: 1px solid #E6E3EF; background: #FFFFFF; font-size: 13px; color: #5E5A73">3 people · you can add more later</div>
+</div>
+</body>
+</html>

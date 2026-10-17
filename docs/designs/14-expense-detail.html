@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Expense detail</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#5B3FD6}a:hover{color:#4329B0}
+</style>
+</head>
+<body>
+<!-- Expense detail (Q18). Tapping an expense opens this. Edit and Delete are shown only to the person who added it;
+     everyone else sees "Only Priya can edit this expense" instead of the buttons. -->
+<div style="width: 390px; height: 844px; box-sizing: border-box; position: relative; overflow: hidden; background: #F6F5FB; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #17142B; display: flex; flex-direction: column">
+  <header style="display: flex; align-items: center; gap: 4px; padding: 12px 8px 4px">
+    <a href="03-group-detail.html" aria-label="Back" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #17142B"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></a>
+    <div style="font-size: 18px; font-weight: 700">Expense</div>
+  </header>
+
+  <section style="margin: 8px 20px 0; padding: 20px; border-radius: 18px; background: #FFFFFF; border: 1px solid #E6E3EF">
+    <div style="display: flex; align-items: center; gap: 12px">
+      <div style="width: 48px; height: 48px; border-radius: 14px; background: #FEF1E2; color: #8A4006; display: flex; align-items: center; justify-content: center">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8"></path><path d="M5 3v4a2 2 0 0 0 4 0V3"></path><path d="M7 11v10"></path><path d="M17 21V3c-2 1-3 4-3 7h3"></path></svg>
+      </div>
+      <div><div style="font-size: 17px; font-weight: 700">Dinner at Raintree</div><div style="font-size: 13px; color: #5E5A73">Food · Sat, 10 Oct</div></div>
+    </div>
+    <div style="font-size: 38px; font-weight: 800; letter-spacing: -1px; margin-top: 16px; font-variant-numeric: tabular-nums">₹2,400</div>
+    <div style="font-size: 14px; color: #403B55; margin-top: 2px">Priya paid · split equally between 5</div>
+  </section>
+
+  <h2 style="margin: 20px 20px 8px; font-size: 13px; font-weight: 700; color: #5E5A73; letter-spacing: 0.4px">SHARES</h2>
+  <div style="margin: 0 20px; background: #FFFFFF; border-radius: 16px; border: 1px solid #E6E3EF; display: flex; flex-direction: column">
+    <div style="display: flex; justify-content: space-between; padding: 0 16px; height: 48px; align-items: center; border-bottom: 1px solid #F0EEF5"><span style="font-size: 15px; font-weight: 600">You</span><span style="font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums">₹480</span></div>
+    <div style="display: flex; justify-content: space-between; padding: 0 16px; height: 48px; align-items: center; border-bottom: 1px solid #F0EEF5"><span style="font-size: 15px; font-weight: 600">Priya <span style="font-size: 12px; font-weight: 500; color: #5E5A73">paid</span></span><span style="font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums">₹480</span></div>
+    <div style="display: flex; justify-content: space-between; padding: 0 16px; height: 48px; align-items: center; border-bottom: 1px solid #F0EEF5"><span style="font-size: 15px; font-weight: 600">Meera</span><span style="font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums">₹480</span></div>
+    <div style="display: flex; justify-content: space-between; padding: 0 16px; height: 48px; align-items: center; border-bottom: 1px solid #F0EEF5"><span style="font-size: 15px; font-weight: 600">Ravi</span><span style="font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums">₹480</span></div>
+    <div style="display: flex; justify-content: space-between; padding: 0 16px; height: 48px; align-items: center"><span style="font-size: 15px; font-weight: 600">Arjun</span><span style="font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums">₹480</span></div>
+  </div>
+  <p style="margin: 12px 24px 0; font-size: 12px; color: #5E5A73">Added by you · 10 Oct, 9:41 pm</p>
+
+  <div style="position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 20px 22px; border-top: 1px solid #E6E3EF; background: #FFFFFF; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+    <a href="15-delete-confirmation.html" style="height: 48px; border-radius: 12px; border: 1px solid #F1D2AE; color: #B45309; text-decoration: none; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700">Delete</a>
+    <a href="04-add-expense.html" style="height: 48px; border-radius: 12px; background: #5B3FD6; color: #FFFFFF; text-decoration: none; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700">Edit</a>
+  </div>
+</div>
+</body>
+</html>

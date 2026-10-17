@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Balances for someone who owes</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#5B3FD6}a:hover{color:#4329B0}
+</style>
+</head>
+<body>
+<!-- Balances seen by someone who owes (H2, Q4, F4). Your pending payment sits in "Waiting for confirmation"
+     with Cancel; each suggested payment you owe has a Pay button. Pay is replaced by "Waiting" while a pending
+     payment covers it, and pays only the extra if the debt has grown. Shown to Ravi.
+     Payments between other people have no button: the person who owes pays from their own phone, or either side
+     records a cash payment. -->
+<div style="width: 390px; height: 844px; box-sizing: border-box; overflow: hidden; background: #F6F5FB; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #17142B; display: flex; flex-direction: column">
+  <header style="display: flex; align-items: center; gap: 4px; padding: 12px 8px 4px">
+    <a href="03-group-detail.html" aria-label="Back" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #17142B"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></a>
+    <div><div style="font-size: 18px; font-weight: 700">Balances</div><div style="font-size: 13px; color: #5E5A73">Coorg trip</div></div>
+  </header>
+
+  <h2 style="margin: 16px 20px 8px; font-size: 13px; font-weight: 700; color: #5E5A73; letter-spacing: 0.4px">WAITING FOR CONFIRMATION</h2>
+  <section style="margin: 0 20px; padding: 14px 16px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E6E3EF; display: flex; align-items: center; gap: 12px">
+    <div style="width: 40px; height: 40px; border-radius: 20px; background: #ECE8FD; color: #4329B0; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center">AR</div>
+    <div style="flex-grow: 1"><div style="font-size: 15px; font-weight: 700">You paid Ananya ₹1,200</div><div style="font-size: 13px; color: #5E5A73">via UPI · waiting for Ananya to confirm</div></div>
+    <button style="height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid #E6E3EF; background: #FFFFFF; font-family: inherit; font-size: 13px; font-weight: 700; color: #B45309">Cancel</button>
+  </section>
+
+  <h2 style="margin: 24px 20px 4px; font-size: 13px; font-weight: 700; color: #5E5A73; letter-spacing: 0.4px">SUGGESTED PAYMENTS</h2>
+  <p style="margin: 0 20px 8px; font-size: 13px; color: #5E5A73">4 payments settle everyone</p>
+  <div style="margin: 0 20px; background: #FFFFFF; border-radius: 16px; border: 1px solid #E6E3EF; display: flex; flex-direction: column">
+    <div style="display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-bottom: 1px solid #F0EEF5">
+      <span style="font-size: 15px; font-weight: 600">You</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5E5A73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+      <span style="flex-grow: 1; font-size: 15px; font-weight: 600">Ananya</span>
+      <span style="font-size: 15px; font-weight: 700">₹1,200</span>
+      <span style="height: 36px; padding: 0 10px; border-radius: 10px; background: #ECE8FD; color: #4329B0; font-size: 12px; font-weight: 700; display: flex; align-items: center">Waiting</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-bottom: 1px solid #F0EEF5">
+      <span style="font-size: 15px; font-weight: 600">You</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5E5A73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+      <span style="flex-grow: 1; font-size: 15px; font-weight: 600">Priya</span>
+      <span style="font-size: 15px; font-weight: 700">₹300</span>
+      <a href="06-settle-up-upi.html" style="height: 36px; padding: 0 14px; border-radius: 10px; background: #5B3FD6; color: #FFFFFF; text-decoration: none; font-size: 13px; font-weight: 700; display: flex; align-items: center">Pay</a>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid #F0EEF5">
+      <span style="font-size: 15px; font-weight: 600">Arjun</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5E5A73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+      <span style="flex-grow: 1; font-size: 15px; font-weight: 600">Meera</span>
+      <span style="font-size: 15px; font-weight: 700">₹1,800</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px; padding: 14px 16px">
+      <span style="font-size: 15px; font-weight: 600">You</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5E5A73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+      <span style="flex-grow: 1; font-size: 15px; font-weight: 600">Meera</span>
+      <span style="font-size: 15px; font-weight: 700">₹200</span>
+      <a href="06-settle-up-upi.html" style="height: 36px; padding: 0 14px; border-radius: 10px; background: #5B3FD6; color: #FFFFFF; text-decoration: none; font-size: 13px; font-weight: 700; display: flex; align-items: center">Pay</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>
