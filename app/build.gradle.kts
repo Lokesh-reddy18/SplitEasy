@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kover)
+    alias(libs.plugins.room)
     alias(libs.plugins.ktlint)
 }
 
@@ -45,6 +46,11 @@ android {
     }
 }
 
+room {
+    // Exported schemas are committed so future migrations can be written and tested.
+    schemaDirectory("$projectDir/schemas")
+}
+
 ktlint {
     version.set(libs.versions.ktlint)
     android.set(true)
@@ -84,6 +90,10 @@ dependencies {
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
     testImplementation(libs.junit)
 }
