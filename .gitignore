@@ -1,0 +1,25 @@
+# Gradle and build outputs
+.gradle/
+build/
+.kotlin/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Local machine files
+local.properties
+.local-home/
+.DS_Store
+
+# IDE
+.idea/
+*.iml
+
+# Secrets and signing
+google-services.json
+*.jks
+*.keystore
+keystore.properties
+
+# Bundle instructions (not part of the app)
+HANDOFF.md

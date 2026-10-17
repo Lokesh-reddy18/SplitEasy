@@ -1,0 +1,4 @@
+<resources>
+    <!-- Compose draws the UI; this theme only covers the window before Compose starts. -->
+    <style name="Theme.SplitEasy" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>
