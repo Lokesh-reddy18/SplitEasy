@@ -155,6 +155,32 @@
     <string name="delete_expense_title">Delete this expense?</string>
     <string name="delete_expense_message">%1$s · %2$s. Balances in %3$s update for everyone.</string>
 
+    <!-- Balances (05, 22) -->
+    <string name="balances_title">Balances</string>
+    <string name="balances_needs_confirmation">Needs your confirmation</string>
+    <string name="balances_waiting">Waiting for confirmation</string>
+    <string name="balances_suggested">Suggested payments</string>
+    <string name="balances_net">Net balances</string>
+    <string name="balances_all_settled">Everyone is settled up.</string>
+    <string name="balances_paid_you">%1$s paid you %2$s</string>
+    <string name="balances_you_paid">You paid %1$s %2$s</string>
+    <string name="balances_via_upi_ref">via UPI · Ref %1$s</string>
+    <string name="balances_via_upi">via UPI</string>
+    <string name="balances_in_cash">in cash</string>
+    <string name="balances_waiting_for">%1$s · waiting for %2$s to confirm</string>
+    <string name="balances_upi_message">%1$s\'s UPI app reported this payment as successful. Check that it reached your account, then confirm.</string>
+    <string name="balances_cash_message">%1$s says they paid you %2$s in cash. Confirm once you\'ve received it.</string>
+    <string name="balances_not_received">Not received</string>
+    <string name="balances_confirm">Confirm</string>
+    <string name="balances_cancel">Cancel</string>
+    <string name="balances_pay">Pay</string>
+    <string name="balances_waiting_chip">Waiting</string>
+    <string name="balances_payment_from_to">%1$s to %2$s, %3$s</string>
+    <plurals name="balances_settle_count">
+        <item quantity="one">%1$d payment settles everyone</item>
+        <item quantity="other">%1$d payments settle everyone</item>
+    </plurals>
+
     <!-- Archived groups (13) -->
     <string name="archived_title">Archived groups</string>
     <string name="archived_help">Archived groups are read-only and don\'t count towards your totals. The person who created a group can unarchive it.</string>

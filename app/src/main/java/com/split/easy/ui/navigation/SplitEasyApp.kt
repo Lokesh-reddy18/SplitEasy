@@ -17,6 +17,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.split.easy.R
 import com.split.easy.ui.archived.ArchivedGroupsRoute
+import com.split.easy.ui.balances.BalancesRoute
 import com.split.easy.ui.common.ComingSoonScreen
 import com.split.easy.ui.creategroup.CreateGroupRoute
 import com.split.easy.ui.expense.detail.ExpenseDetailRoute
@@ -88,7 +89,14 @@ fun SplitEasyApp(navController: NavHostController = rememberNavController()) {
                     onOpenExpense = { navController.navigate(ExpenseDetailRoute(it)) },
                 )
             }
-            composable<BalancesRoute> { Placeholder(R.string.group_balances, navController) }
+            composable<BalancesRoute> {
+                BalancesRoute(
+                    onBack = { navController.popBackStack() },
+                    onPay = { groupId, toMemberId ->
+                        navController.navigate(SettleUpRoute(groupId, toMemberId))
+                    },
+                )
+            }
             composable<SettleUpRoute> { Placeholder(R.string.group_settle_up, navController) }
             composable<GroupSettingsRoute> { Placeholder(R.string.group_settings, navController) }
             composable<ExpenseDetailRoute> {
