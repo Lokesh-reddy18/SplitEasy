@@ -9,16 +9,44 @@ import com.split.easy.domain.model.Member
 import com.split.easy.domain.model.Settlement
 import com.split.easy.domain.model.SettlementMethod
 import com.split.easy.domain.model.SettlementStatus
+import com.split.easy.domain.repository.AuthRepository
 import com.split.easy.domain.repository.CurrentUserProvider
 import com.split.easy.domain.repository.ExpenseRepository
 import com.split.easy.domain.repository.GroupRepository
 import com.split.easy.domain.repository.MemberRepository
 import com.split.easy.domain.repository.SettlementRepository
+import com.split.easy.domain.repository.SignInResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
-/** Simple in-memory repositories for ViewModel and use case tests. Only reads are realistic. */
+// Simple in-memory repositories for ViewModel and use case tests. Only reads are realistic.
+
+/** Sign-in without Google or Firebase. [signIn] / [signOut] change who is signed in. */
+class FakeAuthRepository(initial: CurrentUser? = null) : AuthRepository {
+    private val user = MutableStateFlow(initial)
+    var nextResult = SignInResult.SUCCESS
+    var signInUser = CurrentUser("uid-you", "You")
+    val tokens = mutableListOf<String>()
+
+    override fun currentUser() = user.value
+
+    override val signedInUser: Flow<CurrentUser?> = user
+
+    override suspend fun signInWithGoogle(idToken: String): SignInResult {
+        tokens += idToken
+        if (nextResult == SignInResult.SUCCESS) user.value = signInUser
+        return nextResult
+    }
+
+    fun signIn(newUser: CurrentUser) {
+        user.value = newUser
+    }
+
+    override suspend fun signOut() {
+        user.value = null
+    }
+}
 
 class FakeCurrentUser(private val user: CurrentUser = CurrentUser("uid-you", "You")) :
     CurrentUserProvider {

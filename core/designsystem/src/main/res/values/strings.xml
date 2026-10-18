@@ -9,6 +9,24 @@
     <string name="nav_groups">Groups</string>
     <string name="nav_profile">Profile</string>
 
+    <!-- Sign in (01) -->
+    <string name="sign_in_title">Split bills.\nSettle in one tap.</string>
+    <string name="sign_in_subtitle">Track shared expenses with friends and flatmates, even offline, and pay back with any UPI app.</string>
+    <string name="sign_in_offline_title">Works offline</string>
+    <string name="sign_in_offline_body">Add expenses anywhere; they sync when you are back online.</string>
+    <string name="sign_in_fewest_title">Fewest payments</string>
+    <string name="sign_in_fewest_body">We work out who owes whom so the group settles quickly.</string>
+    <string name="sign_in_upi_title">Pay with UPI</string>
+    <string name="sign_in_upi_body">Amount and UPI ID filled in for you in GPay, PhonePe or Paytm.</string>
+    <string name="sign_in_continue">Continue with Google</string>
+    <string name="sign_in_legal">By continuing you agree to the %1$s and %2$s.</string>
+    <string name="sign_in_terms">Terms</string>
+    <string name="sign_in_privacy">Privacy Policy</string>
+    <string name="sign_in_error_network">No internet connection. Connect once to sign in; after that SplitEasy works offline.</string>
+    <string name="sign_in_error_no_account">Add a Google account to this phone in Settings, then try again.</string>
+    <string name="sign_in_error_failed">Couldn\'t sign in. Please try again.</string>
+    <string name="sign_in_preparing">Setting up your account…</string>
+
     <!-- Groups home (02) -->
     <string name="home_profile_button">Profile</string>
     <plurals name="home_offline_banner">
@@ -251,8 +269,6 @@
 
     <!-- Profile (09) -->
     <string name="profile_title">Profile</string>
-    <string name="profile_local_name">You</string>
-    <string name="profile_local_caption">Sign in with Google arrives in a later update</string>
     <string name="profile_payments">Payments</string>
     <string name="profile_upi">UPI ID</string>
     <string name="profile_upi_value">%1$s · friends pay you here</string>
@@ -274,6 +290,13 @@
     <string name="profile_demo_data">Load demo data</string>
     <string name="profile_demo_data_help">Adds the groups and expenses from the designs (debug builds only)</string>
     <string name="profile_demo_done">Demo data added</string>
+    <string name="profile_sign_out">Sign out</string>
+    <string name="profile_sign_out_title">Sign out?</string>
+    <string name="profile_sign_out_anyway">Sign out anyway</string>
+    <plurals name="profile_sign_out_unsynced">
+        <item quantity="one">%1$d change hasn\'t synced yet. Signing out deletes it from this phone and it will be lost.</item>
+        <item quantity="other">%1$d changes haven\'t synced yet. Signing out deletes them from this phone and they will be lost.</item>
+    </plurals>
     <string name="profile_version">SplitEasy v%1$s</string>
 
     <!-- Archived groups (13) -->

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
@@ -27,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -46,15 +48,16 @@ import com.split.easy.config.FeatureFlags
 import com.split.easy.core.designsystem.R
 import com.split.easy.domain.model.ThemeSetting
 import com.split.easy.ui.components.CardDivider
+import com.split.easy.ui.components.DestructiveButton
 import com.split.easy.ui.components.InitialsAvatar
 import com.split.easy.ui.components.OutlinedActionButton
-import com.split.easy.ui.components.ProfileIconAvatar
 import com.split.easy.ui.components.SectionHeader
 import com.split.easy.ui.components.SplitEasyCard
 import com.split.easy.ui.components.TextActionButton
 import com.split.easy.ui.theme.SplitEasyTheme
 import com.split.easy.ui.upi.UpiIdSheet
 import com.split.easy.ui.upi.UpiIdTarget
+import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileRoute(
@@ -65,6 +68,8 @@ fun ProfileRoute(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    var unsyncedWarning by rememberSaveable { mutableStateOf<Int?>(null) }
     val demoMessage = stringResource(R.string.profile_demo_done)
     LaunchedEffect(viewModel) {
         viewModel.demoLoadedEvents.collect {
@@ -78,6 +83,58 @@ fun ProfileRoute(
         onLoadDemoData = viewModel::onLoadDemoData,
         showDeveloperOptions = isDebugBuild,
         appVersion = appVersion,
+        onSignOut = {
+            scope.launch {
+                val unsynced = viewModel.unsyncedChangeCount()
+                if (unsynced == 0) viewModel.onSignOut() else unsyncedWarning = unsynced
+            }
+        },
+    )
+    unsyncedWarning?.let { count ->
+        SignOutWarningDialog(
+            unsyncedChanges = count,
+            onConfirm = {
+                unsyncedWarning = null
+                viewModel.onSignOut()
+            },
+            onDismiss = { unsyncedWarning = null },
+        )
+    }
+}
+
+/** "3 changes haven't synced yet" before signing out deletes them (M4-Q3). */
+@Composable
+fun SignOutWarningDialog(unsyncedChanges: Int, onConfirm: () -> Unit, onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        containerColor = SplitEasyTheme.colors.surface,
+        shape = MaterialTheme.shapes.extraLarge,
+        title = {
+            Text(
+                stringResource(R.string.profile_sign_out_title),
+                style = MaterialTheme.typography.titleLarge,
+            )
+        },
+        text = {
+            Text(
+                pluralStringResource(
+                    R.plurals.profile_sign_out_unsynced,
+                    unsyncedChanges,
+                    unsyncedChanges,
+                ),
+                style = MaterialTheme.typography.bodyMedium,
+            )
+        },
+        dismissButton = {
+            OutlinedActionButton(stringResource(R.string.action_cancel), onClick = onDismiss)
+        },
+        confirmButton = {
+            DestructiveButton(
+                stringResource(R.string.profile_sign_out_anyway),
+                onClick = onConfirm,
+                filled = true,
+            )
+        },
     )
 }
 
@@ -90,6 +147,7 @@ fun ProfileScreen(
     onLoadDemoData: () -> Unit,
     showDeveloperOptions: Boolean,
     appVersion: String = "",
+    onSignOut: () -> Unit = {},
 ) {
     val colors = SplitEasyTheme.colors
     var editUpi by rememberSaveable { mutableStateOf(false) }
@@ -118,31 +176,15 @@ fun ProfileScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(14.dp),
             ) {
-                if (state.user.isPlaceholder) {
-                    ProfileIconAvatar(
-                        size = 56.dp,
-                    )
-                } else {
-                    InitialsAvatar(state.user.displayName, size = 56.dp)
-                }
+                InitialsAvatar(state.user.displayName, size = 56.dp)
                 Column {
                     Text(
-                        if (state.user.isPlaceholder) {
-                            stringResource(
-                                R.string.profile_local_name,
-                            )
-                        } else {
-                            state.user.displayName
-                        },
+                        state.user.displayName,
                         style = MaterialTheme.typography.titleSmall,
                         color = colors.ink,
                     )
-                    if (state.user.isPlaceholder) {
-                        Text(
-                            stringResource(R.string.profile_local_caption),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = colors.muted,
-                        )
+                    state.user.email?.let {
+                        Text(it, style = MaterialTheme.typography.bodySmall, color = colors.muted)
                     }
                 }
             }
@@ -263,6 +305,24 @@ fun ProfileScreen(
                     )
                 }
             }
+        }
+
+        SplitEasyCard(
+            Modifier
+                .fillMaxWidth()
+                .padding(top = 24.dp),
+        ) {
+            Text(
+                stringResource(R.string.profile_sign_out),
+                style = MaterialTheme.typography.bodyLarge,
+                color = colors.owe,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(role = Role.Button, onClick = onSignOut)
+                    .heightIn(min = 52.dp)
+                    .wrapContentHeight(),
+            )
         }
 
         Text(

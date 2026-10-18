@@ -41,7 +41,6 @@ import com.split.easy.ui.components.CardDivider
 import com.split.easy.ui.components.InitialsAvatar
 import com.split.easy.ui.components.OutlinedActionButton
 import com.split.easy.ui.components.PrimaryButton
-import com.split.easy.ui.components.ProfileIconAvatar
 import com.split.easy.ui.components.SplitEasyCard
 import com.split.easy.ui.components.SplitEasyTopBar
 import com.split.easy.ui.components.TopBarNavigation
@@ -161,11 +160,12 @@ private fun MembersCard(
 ) {
     val colors = SplitEasyTheme.colors
     SplitEasyCard(Modifier.fillMaxWidth()) {
+        // Shown as "You" (design 11), with initials from your Google name.
         PersonRow(
-            name = state.creatorName,
+            name = stringResource(R.string.you),
             caption = stringResource(R.string.create_group_creator),
             tint = AvatarTint.PRIMARY,
-            showProfileIcon = state.creatorIsPlaceholder,
+            avatarName = state.creatorName,
         )
         state.guests.forEach { guest ->
             CardDivider()
@@ -229,7 +229,8 @@ private fun PersonRow(
     name: String,
     caption: String,
     tint: AvatarTint,
-    showProfileIcon: Boolean = false,
+    /** Name used for the initials, when it differs from [name] ("You" → "Ananya Rao"). */
+    avatarName: String = name,
     trailing: @Composable () -> Unit = {},
 ) {
     val colors = SplitEasyTheme.colors
@@ -241,11 +242,7 @@ private fun PersonRow(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        if (showProfileIcon) {
-            ProfileIconAvatar(size = 36.dp)
-        } else {
-            InitialsAvatar(name, size = 36.dp, tint = tint)
-        }
+        InitialsAvatar(avatarName, size = 36.dp, tint = tint)
         Column(Modifier.weight(1f)) {
             Text(name, style = MaterialTheme.typography.bodyLarge, color = colors.ink)
             Text(caption, style = MaterialTheme.typography.labelSmall, color = colors.muted)

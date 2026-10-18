@@ -18,7 +18,7 @@ Kotlin · Jetpack Compose + Material 3 · Navigation Compose · MVVM + domain us
   - `:core:data` — repositories, preferences, current user, sync scheduler, demo data (Firestore in M4).
   - `:core:designsystem` — theme, shared components, formatting, all strings/icons/font.
   - `:core:testing` — fakes and fixtures for tests.
-  - `:feature:home|group|expense|settle|profile` — screens + ViewModels. Features never depend on each other.
+  - `:feature:auth|home|group|expense|settle|profile` — screens + ViewModels. Features never depend on each other.
 - UI pattern: MVVM with one immutable `UiState` per screen exposed as `StateFlow`, one-off events via `Channel`.
 - Room is the single source of truth. Repositories write to Room first, mark `syncState = PENDING`, and enqueue sync. The UI only observes Room Flows.
 - Money is always `Long` paise. Never Float/Double. Rounding remainders go to the payer.
