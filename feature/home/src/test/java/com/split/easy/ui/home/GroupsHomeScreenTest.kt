@@ -26,7 +26,7 @@ class GroupsHomeScreenTest {
     @get:Rule
     val composeRule = createComposeRule()
 
-    private val user = CurrentUser("local-user", "You", isPlaceholder = true)
+    private val user = CurrentUser("uid-ananya", "Ananya Rao", email = "ananya.rao@gmail.com")
 
     /** The groups from the design (02). */
     private val designGroups = listOf(

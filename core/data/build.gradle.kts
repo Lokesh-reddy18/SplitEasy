@@ -16,6 +16,12 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
+    // Google sign-in (FR-1): Firebase Auth, plus Credential Manager to forget the account on sign-out.
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.kotlinx.coroutines.play.services)
+    implementation(libs.androidx.credentials)
+
     testImplementation(project(":core:testing"))
     testImplementation(testFixtures(project(":core:database")))
     testImplementation(libs.robolectric)

@@ -4,6 +4,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import com.split.easy.domain.model.CurrentUser
 import com.split.easy.domain.model.ThemeSetting
 import com.split.easy.ui.theme.SplitEasyTheme
@@ -21,7 +22,7 @@ class ProfileScreenTest {
     @get:Rule
     val composeRule = createComposeRule()
 
-    private val user = CurrentUser("local-user", "You", isPlaceholder = true)
+    private val user = CurrentUser("uid-ananya", "Ananya Rao", email = "ananya.rao@gmail.com")
 
     @Test
     fun `shows the UPI ID and theme, without the P2 rows`() {
@@ -65,5 +66,37 @@ class ProfileScreenTest {
         }
         composeRule.onNodeWithText("Add").performClick()
         composeRule.onNodeWithText("Your UPI ID").assertIsDisplayed()
+    }
+
+    @Test
+    fun `shows the Google account and signs out`() {
+        var signOuts = 0
+        composeRule.setContent {
+            SplitEasyTheme {
+                ProfileScreen(ProfileUiState(user), {
+                }, {}, {}, showDeveloperOptions = false, onSignOut = { signOuts++ })
+            }
+        }
+        composeRule.onNodeWithText("Ananya Rao").assertIsDisplayed()
+        composeRule.onNodeWithText("ananya.rao@gmail.com").assertIsDisplayed()
+        composeRule.onNodeWithText("Sign out").performScrollTo().performClick()
+        assertEquals(1, signOuts)
+    }
+
+    @Test
+    fun `warns before deleting unsynced changes`() {
+        var confirmed = 0
+        composeRule.setContent {
+            SplitEasyTheme {
+                SignOutWarningDialog(unsyncedChanges = 3, onConfirm = {
+                    confirmed++
+                }, onDismiss = {})
+            }
+        }
+        composeRule.onNodeWithText(
+            "3 changes haven't synced yet. Signing out deletes them from this phone and they will be lost.",
+        ).assertIsDisplayed()
+        composeRule.onNodeWithText("Sign out anyway").performClick()
+        assertEquals(1, confirmed)
     }
 }

@@ -2,6 +2,8 @@ package com.split.easy.di
 
 import android.content.Context
 import androidx.room.Room
+import com.split.easy.data.local.LocalDataEraser
+import com.split.easy.data.local.RoomDataEraser
 import com.split.easy.data.local.SplitEasyDatabase
 import com.split.easy.data.local.dao.ExpenseDao
 import com.split.easy.data.local.dao.GroupDao
@@ -26,6 +28,9 @@ object DatabaseModule {
         Room.databaseBuilder(context, SplitEasyDatabase::class.java, SplitEasyDatabase.NAME)
             .addMigrations(*SplitEasyDatabase.MIGRATIONS)
             .build()
+
+    @Provides
+    fun provideLocalDataEraser(eraser: RoomDataEraser): LocalDataEraser = eraser
 
     @Provides
     fun provideGroupDao(database: SplitEasyDatabase): GroupDao = database.groupDao()

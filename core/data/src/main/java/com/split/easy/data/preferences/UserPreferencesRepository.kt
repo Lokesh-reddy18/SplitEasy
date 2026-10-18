@@ -49,7 +49,23 @@ class UserPreferencesRepository @Inject constructor(
         dataStore.edit { it[DISMISSED_UPI_PROMPT] = it[DISMISSED_UPI_PROMPT].orEmpty() + groupId }
     }
 
+    /** The account whose data is on this phone; null for none (M2 test data, or signed out). */
+    val dataOwnerId: Flow<String?> = preferences.map { it[DATA_OWNER] }
+
+    suspend fun setDataOwnerId(userId: String?) {
+        dataStore.edit { if (userId == null) it.remove(DATA_OWNER) else it[DATA_OWNER] = userId }
+    }
+
+    /** Forgets per-account settings (last-used group, dismissed prompts). The theme stays (M4-Q2). */
+    suspend fun clearAccountSettings() {
+        dataStore.edit {
+            it.remove(LAST_USED_GROUP)
+            it.remove(DISMISSED_UPI_PROMPT)
+        }
+    }
+
     private companion object {
+        val DATA_OWNER = stringPreferencesKey("data_owner")
         val DISMISSED_UPI_PROMPT = stringSetPreferencesKey("dismissed_upi_prompt")
         val THEME = stringPreferencesKey("theme")
         val LAST_USED_GROUP = stringPreferencesKey("last_used_group")

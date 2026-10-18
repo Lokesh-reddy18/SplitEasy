@@ -56,6 +56,7 @@ dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:database"))
     implementation(project(":core:designsystem"))
+    implementation(project(":feature:auth"))
     implementation(project(":feature:home"))
     implementation(project(":feature:group"))
     implementation(project(":feature:expense"))
@@ -63,6 +64,7 @@ dependencies {
     implementation(project(":feature:profile"))
 
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)

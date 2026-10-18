@@ -1,5 +1,6 @@
 package com.split.easy.di
 
+import com.google.firebase.auth.FirebaseAuth
 import com.split.easy.data.IdGenerator
 import com.split.easy.data.UuidGenerator
 import com.split.easy.data.repository.OfflineFirstExpenseRepository
@@ -7,7 +8,9 @@ import com.split.easy.data.repository.OfflineFirstGroupRepository
 import com.split.easy.data.repository.OfflineFirstMemberRepository
 import com.split.easy.data.repository.OfflineFirstSettlementRepository
 import com.split.easy.data.repository.RoomSyncStatusRepository
-import com.split.easy.data.user.LocalCurrentUserProvider
+import com.split.easy.data.user.FirebaseAuthRepository
+import com.split.easy.data.user.FirebaseCurrentUserProvider
+import com.split.easy.domain.repository.AuthRepository
 import com.split.easy.domain.repository.CurrentUserProvider
 import com.split.easy.domain.repository.ExpenseRepository
 import com.split.easy.domain.repository.GroupRepository
@@ -43,6 +46,12 @@ abstract class RepositoryModule {
     ): SettlementRepository
 
     @Binds
+    abstract fun bindAuthRepository(impl: FirebaseAuthRepository): AuthRepository
+
+    @Binds
+    abstract fun bindCurrentUserProvider(impl: FirebaseCurrentUserProvider): CurrentUserProvider
+
+    @Binds
     abstract fun bindSyncStatusRepository(impl: RoomSyncStatusRepository): SyncStatusRepository
 
     companion object {
@@ -56,7 +65,7 @@ abstract class RepositoryModule {
 
         @Provides
         @Singleton
-        fun provideCurrentUserProvider(): CurrentUserProvider = LocalCurrentUserProvider()
+        fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 
         /** No backend in M2 (M2-Q5); M4 binds the WorkManager scheduler here instead. */
         @Provides

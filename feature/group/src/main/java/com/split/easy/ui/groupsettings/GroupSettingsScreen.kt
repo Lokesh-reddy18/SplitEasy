@@ -45,7 +45,6 @@ import com.split.easy.ui.components.DestructiveButton
 import com.split.easy.ui.components.InitialsAvatar
 import com.split.easy.ui.components.OutlinedActionButton
 import com.split.easy.ui.components.PrimaryButton
-import com.split.easy.ui.components.ProfileIconAvatar
 import com.split.easy.ui.components.SectionHeader
 import com.split.easy.ui.components.SplitEasyCard
 import com.split.easy.ui.components.SplitEasyTopBar
@@ -314,13 +313,7 @@ private fun MemberRowView(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        if (row.isMe &&
-            member.displayName == you
-        ) {
-            ProfileIconAvatar(size = 36.dp)
-        } else {
-            InitialsAvatar(member.displayName, size = 36.dp)
-        }
+        InitialsAvatar(member.displayName, size = 36.dp)
         Column(Modifier.weight(1f)) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,

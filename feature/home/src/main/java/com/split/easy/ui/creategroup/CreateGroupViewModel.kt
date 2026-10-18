@@ -16,8 +16,6 @@ import kotlinx.coroutines.launch
 
 data class CreateGroupUiState(
     val creatorName: String,
-    /** The M2 stand-in user has no real name, so the creator row shows the profile icon. */
-    val creatorIsPlaceholder: Boolean = false,
     val name: String = "",
     val guestInput: String = "",
     val guests: List<String> = emptyList(),
@@ -65,7 +63,8 @@ class CreateGroupViewModel @Inject constructor(
     fun onAddGuest() {
         _uiState.update { state ->
             val name = state.guestInput.trim()
-            val taken = (state.guests + state.creatorName).any {
+            // "You" is how the creator is shown, so it can't be a guest's name either.
+            val taken = (state.guests + state.creatorName + YOU).any {
                 it.equals(name, ignoreCase = true)
             }
             when {
@@ -101,5 +100,6 @@ class CreateGroupViewModel @Inject constructor(
     companion object {
         const val MAX_GROUP_NAME = 40
         const val MAX_PERSON_NAME = 30
+        private const val YOU = "You"
     }
 }

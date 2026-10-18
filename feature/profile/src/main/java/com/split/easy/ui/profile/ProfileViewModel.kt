@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.split.easy.data.demo.DemoDataLoader
 import com.split.easy.data.preferences.UserPreferencesRepository
+import com.split.easy.data.user.SessionManager
 import com.split.easy.domain.model.CurrentUser
 import com.split.easy.domain.model.ThemeSetting
 import com.split.easy.domain.repository.CurrentUserProvider
@@ -41,6 +42,7 @@ class ProfileViewModel @Inject constructor(
     syncStatusRepository: SyncStatusRepository,
     private val preferences: UserPreferencesRepository,
     private val demoDataLoader: DemoDataLoader,
+    private val sessionManager: SessionManager,
 ) : ViewModel() {
 
     private val user = currentUserProvider.currentUser()
@@ -83,6 +85,14 @@ class ProfileViewModel @Inject constructor(
 
     fun onThemeChange(theme: ThemeSetting) {
         viewModelScope.launch { preferences.setThemeSetting(theme) }
+    }
+
+    /** How many changes would be lost by signing out now; 0 means it's safe (M4-Q3). */
+    suspend fun unsyncedChangeCount(): Int = sessionManager.unsyncedChangeCount()
+
+    /** Deletes this account's data from the phone and signs out. The app shows Sign in next. */
+    fun onSignOut() {
+        viewModelScope.launch { sessionManager.signOut() }
     }
 
     fun onLoadDemoData() {

@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
@@ -44,7 +45,6 @@ import com.split.easy.domain.usecase.GroupSummary
 import com.split.easy.ui.components.AmountText
 import com.split.easy.ui.components.CardDivider
 import com.split.easy.ui.components.InitialsAvatar
-import com.split.easy.ui.components.ProfileIconAvatar
 import com.split.easy.ui.components.SplitEasyCard
 import com.split.easy.ui.components.TextActionButton
 import com.split.easy.ui.theme.FabShape
@@ -213,13 +213,14 @@ private fun HomeHeader(user: CurrentUser, onOpenProfile: () -> Unit) {
                 .weight(1f)
                 .semantics { heading() },
         )
-        IconButton(onClick = onOpenProfile, modifier = Modifier.size(48.dp)) {
-            if (user.isPlaceholder) {
-                // No real name before sign-in (M4), so show the profile icon instead of initials.
-                ProfileIconAvatar(contentDescription = stringResource(R.string.home_profile_button))
-            } else {
-                InitialsAvatar(user.displayName)
-            }
+        val profileLabel = stringResource(R.string.home_profile_button)
+        IconButton(
+            onClick = onOpenProfile,
+            modifier = Modifier
+                .size(48.dp)
+                .semantics { contentDescription = profileLabel },
+        ) {
+            InitialsAvatar(user.displayName)
         }
     }
 }
