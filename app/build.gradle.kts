@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ktlint)
+    // Reads app/google-services.json (git-ignored; CI writes it from a secret).
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -75,4 +77,9 @@ dependencies {
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
+    // Firebase is initialised from google-services.json; sign-in and sync code arrive in later steps.
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
 }
