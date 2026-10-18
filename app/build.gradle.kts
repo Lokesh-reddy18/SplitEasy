@@ -80,6 +80,8 @@ dependencies {
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+    implementation(libs.androidx.work.runtime)
+    implementation(libs.androidx.hilt.work)
 
     // Firebase is initialised from google-services.json; sign-in and sync code arrive in later steps.
     implementation(platform(libs.firebase.bom))

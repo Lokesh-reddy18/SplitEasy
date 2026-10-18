@@ -11,7 +11,7 @@ import com.split.easy.domain.model.Expense
 import com.split.easy.domain.model.ExpenseDraft
 import com.split.easy.domain.repository.CurrentUserProvider
 import com.split.easy.domain.repository.ExpenseRepository
-import com.split.easy.sync.SyncScheduler
+import com.split.easy.domain.sync.SyncScheduler
 import java.time.Clock
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow

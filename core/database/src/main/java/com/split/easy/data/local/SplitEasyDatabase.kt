@@ -8,6 +8,7 @@ import com.split.easy.data.local.dao.GroupDao
 import com.split.easy.data.local.dao.GroupEventDao
 import com.split.easy.data.local.dao.MemberDao
 import com.split.easy.data.local.dao.SettlementDao
+import com.split.easy.data.local.dao.SyncDao
 import com.split.easy.data.local.dao.SyncStatusDao
 import com.split.easy.data.local.entity.ExpenseEntity
 import com.split.easy.data.local.entity.ExpenseShareEntity
@@ -42,6 +43,8 @@ abstract class SplitEasyDatabase : RoomDatabase() {
     abstract fun groupEventDao(): GroupEventDao
 
     abstract fun syncStatusDao(): SyncStatusDao
+
+    abstract fun syncDao(): SyncDao
 
     companion object {
         const val NAME = "spliteasy.db"

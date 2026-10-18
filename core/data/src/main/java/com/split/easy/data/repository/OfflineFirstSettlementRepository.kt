@@ -10,7 +10,7 @@ import com.split.easy.domain.model.SettlementMethod
 import com.split.easy.domain.model.SettlementStatus
 import com.split.easy.domain.repository.CurrentUserProvider
 import com.split.easy.domain.repository.SettlementRepository
-import com.split.easy.sync.SyncScheduler
+import com.split.easy.domain.sync.SyncScheduler
 import java.time.Clock
 import java.time.LocalDate
 import javax.inject.Inject

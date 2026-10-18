@@ -11,7 +11,7 @@ import com.split.easy.domain.model.GroupEventType
 import com.split.easy.domain.model.Member
 import com.split.easy.domain.repository.CurrentUserProvider
 import com.split.easy.domain.repository.MemberRepository
-import com.split.easy.sync.SyncScheduler
+import com.split.easy.domain.sync.SyncScheduler
 import java.time.Clock
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
