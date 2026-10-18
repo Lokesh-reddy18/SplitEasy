@@ -1,7 +1,10 @@
 name: CI
 
+# One run per PR update, and one after each merge to main.
+# (Triggering on every push as well would run CI twice for branches with an open PR.)
 on:
   push:
+    branches: [main]
   pull_request:
 
 concurrency:
