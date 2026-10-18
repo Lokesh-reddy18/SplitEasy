@@ -7,10 +7,13 @@ import com.split.easy.data.user.SessionManager
 import com.split.easy.domain.model.Session
 import com.split.easy.domain.model.ThemeSetting
 import com.split.easy.domain.sync.SyncScheduler
+import com.split.easy.sync.download.ForegroundSync
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 
@@ -20,6 +23,7 @@ class MainViewModel @Inject constructor(
     preferences: UserPreferencesRepository,
     sessionManager: SessionManager,
     private val syncScheduler: SyncScheduler,
+    private val foregroundSync: ForegroundSync,
 ) : ViewModel() {
     val themeSetting: StateFlow<ThemeSetting> = preferences.themeSetting
         .stateIn(viewModelScope, SharingStarted.Eagerly, ThemeSetting.SYSTEM)
@@ -29,4 +33,14 @@ class MainViewModel @Inject constructor(
         // Upload anything left over from last time once someone is signed in (FR-10).
         .onEach { if (it is Session.SignedIn) syncScheduler.requestSync() }
         .stateIn(viewModelScope, SharingStarted.Eagerly, null)
+
+    /**
+     * Uploads, catches up and listens for changes while the app is on screen (M4-Q8). Started by
+     * MainActivity when it comes to the foreground and cancelled when it goes to the background.
+     */
+    suspend fun syncWhileVisible() {
+        session.filterIsInstance<Session.SignedIn>().collectLatest {
+            foregroundSync.run(it.user.userId)
+        }
+    }
 }

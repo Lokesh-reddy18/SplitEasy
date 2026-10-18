@@ -7,6 +7,7 @@ import com.split.easy.data.local.dao.ExpenseDao
 import com.split.easy.data.local.dao.GroupDao
 import com.split.easy.data.local.dao.GroupEventDao
 import com.split.easy.data.local.dao.MemberDao
+import com.split.easy.data.local.dao.MergeDao
 import com.split.easy.data.local.dao.SettlementDao
 import com.split.easy.data.local.dao.SyncDao
 import com.split.easy.data.local.dao.SyncStatusDao
@@ -16,6 +17,7 @@ import com.split.easy.data.local.entity.GroupEntity
 import com.split.easy.data.local.entity.GroupEventEntity
 import com.split.easy.data.local.entity.MemberEntity
 import com.split.easy.data.local.entity.SettlementEntity
+import com.split.easy.data.local.entity.SyncProgressEntity
 
 /** The local database: the single source of truth. The UI only observes its Flows. */
 @Database(
@@ -26,8 +28,9 @@ import com.split.easy.data.local.entity.SettlementEntity
         ExpenseShareEntity::class,
         SettlementEntity::class,
         GroupEventEntity::class,
+        SyncProgressEntity::class,
     ],
-    version = 2,
+    version = 3,
     exportSchema = true,
 )
 @TypeConverters(Converters::class)
@@ -46,9 +49,11 @@ abstract class SplitEasyDatabase : RoomDatabase() {
 
     abstract fun syncDao(): SyncDao
 
+    abstract fun mergeDao(): MergeDao
+
     companion object {
         const val NAME = "spliteasy.db"
 
-        val MIGRATIONS = arrayOf(MIGRATION_1_2)
+        val MIGRATIONS = arrayOf(MIGRATION_1_2, MIGRATION_2_3)
     }
 }

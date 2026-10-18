@@ -40,6 +40,28 @@ class MigrationTest {
         }
     }
 
+    @Test
+    fun `v2 to v3 adds an empty sync_progress table and keeps the data`() {
+        helper.createDatabase(DB_NAME, 2).use { db ->
+            db.execSQL(
+                "INSERT INTO groups " +
+                    "(id, name, createdBy, isArchived, lastActivityAt, updatedAt, " +
+                    "syncState, isDeleted) " +
+                    "VALUES ('g1', 'Coorg trip', 'uid-you', 0, 5, 4, 'PENDING', 0)",
+            )
+        }
+        helper.runMigrationsAndValidate(DB_NAME, 3, true, MIGRATION_2_3).use { db ->
+            db.query("SELECT COUNT(*) FROM sync_progress").use {
+                it.moveToFirst()
+                assertEquals(0, it.getInt(0))
+            }
+            db.query("SELECT name FROM groups").use {
+                it.moveToFirst()
+                assertEquals("Coorg trip", it.getString(0))
+            }
+        }
+    }
+
     private companion object {
         const val DB_NAME = "migration-test"
     }
