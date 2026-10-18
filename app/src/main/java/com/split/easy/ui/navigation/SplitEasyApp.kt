@@ -20,6 +20,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
+import com.split.easy.BuildConfig
 import com.split.easy.ui.archived.ArchivedGroupsRoute
 import com.split.easy.ui.balances.BalancesRoute
 import com.split.easy.ui.creategroup.CreateGroupRoute
@@ -136,7 +137,7 @@ fun SplitEasyApp(navController: NavHostController = rememberNavController()) {
             composable<ExpenseEditorRoute> {
                 ExpenseEditorRoute(onClose = { navController.popBackStack() })
             }
-            composable<ProfileRoute> { ProfileRoute() }
+            composable<ProfileRoute> { ProfileRoute(BuildConfig.DEBUG, BuildConfig.VERSION_NAME) }
         }
     }
 }

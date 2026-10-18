@@ -4,8 +4,6 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
-    alias(libs.plugins.kover)
-    alias(libs.plugins.room)
     alias(libs.plugins.ktlint)
 }
 
@@ -41,91 +39,40 @@ android {
         buildConfig = true
     }
 
-    sourceSets {
-        // MigrationTestHelper reads the exported schemas as assets. Robolectric uses the debug
-        // assets, so they're added to debug builds only; release APKs don't include them.
-        getByName("debug").assets.srcDir("$projectDir/schemas")
-    }
-
-    testOptions {
-        // Robolectric runs the Room DAO tests on the JVM, without an emulator.
-        unitTests.isIncludeAndroidResources = true
-        unitTests.all {
-            // Robolectric reads JDK internals for file descriptors (robolectric/robolectric#11434).
-            it.jvmArgs("--add-exports", "java.base/jdk.internal.access=ALL-UNNAMED")
-        }
-    }
-
     lint {
         // Errors fail the build; warnings are reported but don't block it.
         abortOnError = true
         warningsAsErrors = false
+        // Check every module's code and resources together, so shared icons aren't reported unused.
+        checkDependencies = true
     }
 }
 
-room {
-    // Exported schemas are committed so future migrations can be written and tested.
-    schemaDirectory("$projectDir/schemas")
-}
-
-ktlint {
-    version.set(libs.versions.ktlint)
-    android.set(true)
-}
-
-kover {
-    reports {
-        filters {
-            includes {
-                // PRD metric: split and settlement logic at 90% coverage or higher.
-                packages(
-                    "com.split.easy.domain.money",
-                    "com.split.easy.domain.split",
-                    "com.split.easy.domain.balance",
-                    "com.split.easy.domain.settlement",
-                    "com.split.easy.domain.upi",
-                )
-            }
-        }
-        verify {
-            rule("Split and settlement logic") {
-                minBound(90)
-            }
-        }
-    }
-}
-
+// The app shell: MainActivity, Hilt's application class and navigation between features.
 dependencies {
+    implementation(project(":core:domain"))
+    implementation(project(":core:data"))
+    implementation(project(":core:database"))
+    implementation(project(":core:designsystem"))
+    implementation(project(":feature:home"))
+    implementation(project(":feature:group"))
+    implementation(project(":feature:expense"))
+    implementation(project(":feature:settle"))
+    implementation(project(":feature:profile"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
-    debugImplementation(libs.androidx.compose.ui.tooling)
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
-
-    testImplementation(libs.junit)
-    testImplementation(libs.robolectric)
-    testImplementation(libs.turbine)
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.androidx.test.core)
-    testImplementation(libs.androidx.room.testing)
-    testImplementation(platform(libs.androidx.compose.bom))
-    testImplementation(libs.androidx.compose.ui.test.junit4)
 }

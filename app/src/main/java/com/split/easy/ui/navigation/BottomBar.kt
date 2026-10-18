@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.split.easy.R
+import com.split.easy.core.designsystem.R
 import com.split.easy.ui.theme.SplitEasyTheme
 
 /** The two tabs in M2. Insights joins in M5 (M2-Q2). */
