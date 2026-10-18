@@ -69,3 +69,37 @@ jobs:
         with:
           name: splitEasy-debug-${{ github.sha }}
           path: app/build/outputs/apk/debug/app-debug.apk
+
+  # Firestore security rules, tested against the Firestore emulator (M4-Q7).
+  firestore-rules:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: firebase
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: firebase/package-lock.json
+
+      # The emulator runs on Java.
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Cache the Firestore emulator
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/firebase/emulators
+          key: firestore-emulator-${{ hashFiles('firebase/package-lock.json') }}
+
+      - run: npm ci
+
+      - name: Test the rules
+        run: npm test
+

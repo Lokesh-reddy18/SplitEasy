@@ -1,5 +1,6 @@
 package com.split.easy.data.repository
 
+import com.split.easy.data.local.entity.SyncState
 import com.split.easy.domain.model.GroupEventType
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -83,4 +84,26 @@ class MemberRepositoryTest : RepositoryTest() {
         assertEquals(listOf("ananya.r@okaxis", null), membersOf(coorg).map { it.upiId })
         assertEquals(listOf("ananya.r@okaxis"), membersOf(flat).map { it.upiId })
     }
+
+    @Test
+    fun `when a signed-in member leaves, the group is uploaded again with its new member list`() =
+        runTest {
+            val groupId = groups.createGroup("Coorg trip", emptyList())
+            val ravi = repository.addGuest(groupId, "Ravi")
+            db.groupDao().upsert(
+                db.groupDao().getGroup(groupId)!!.copy(syncState = SyncState.SYNCED),
+            )
+
+            // Removing a guest doesn't change who can read the group.
+            repository.removeMember(ravi)
+            assertEquals(SyncState.SYNCED, db.groupDao().getGroup(groupId)!!.syncState)
+
+            // You leaving does; the group's updatedAt stays the same.
+            val before = db.groupDao().getGroup(groupId)!!.updatedAt
+            val me = membersOf(groupId).first { it.userId == you.userId }
+            repository.removeMember(me.id)
+            val group = db.groupDao().getGroup(groupId)!!
+            assertEquals(SyncState.PENDING, group.syncState)
+            assertEquals(before, group.updatedAt)
+        }
 }

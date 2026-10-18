@@ -1,0 +1,18 @@
+{
+  "name": "spliteasy-firestore-rules",
+  "private": true,
+  "description": "Tests for SplitEasy's Firestore security rules, run against the Firestore emulator.",
+  "type": "module",
+  "engines": {
+    "node": ">=24.12.0"
+  },
+  "scripts": {
+    "test": "firebase emulators:exec --only firestore --project demo-spliteasy \"node --test --test-concurrency=1 'test/**/*.test.js'\"",
+    "deploy": "firebase deploy --only firestore:rules --project spliteasy-aaef2"
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "6.0.0",
+    "firebase": "13.0.0",
+    "firebase-tools": "15.34.0"
+  }
+}

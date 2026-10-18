@@ -1,0 +1,277 @@
+rules_version = '2';
+
+// SplitEasy security rules (PRD "Security", docs/plans/M4-auth-sync.md §4).
+//
+// Layout: groups/{groupId} with members, expenses, settlements and events below it.
+// Each group lists its signed-in members' uids in `memberUserIds`.
+//
+// The app checks the same rules first (GroupRules, SettlementRules, ExpenseRules in :core:domain);
+// these rules stop anyone who bypasses the app. "Balance must be zero" checks (archive, remove,
+// leave) can't be done here because rules can't add up balances; they stay in the app (PRD).
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function uid() {
+      return request.auth.uid;
+    }
+
+    // ---------- Groups ----------
+
+    match /groups/{groupId} {
+
+      // The group as stored before this request.
+      function group() {
+        return get(/databases/$(database)/documents/groups/$(groupId)).data;
+      }
+
+      // The group as it will be once this request's batch is applied. Used for the contents of a
+      // group, so a new group, its members and its first expenses can be uploaded in one batch.
+      function groupAfter() {
+        return getAfter(/databases/$(database)/documents/groups/$(groupId)).data;
+      }
+
+      // Checks on the group document itself use what's stored, so a request can't grant itself access.
+      function isMember() {
+        return signedIn() && uid() in group().memberUserIds;
+      }
+
+      function isCreator() {
+        return signedIn() && group().createdBy == uid();
+      }
+
+      function isArchived() {
+        return group().isArchived == true;
+      }
+
+      // Checks on a group's contents (members, expenses, settlements, events) use the group after
+      // this batch. The group document's own rules already decide whether that change is allowed.
+      function isMemberAfter() {
+        return signedIn() && uid() in groupAfter().memberUserIds;
+      }
+
+      function isCreatorAfter() {
+        return signedIn() && groupAfter().createdBy == uid();
+      }
+
+      function isArchivedAfter() {
+        return groupAfter().isArchived == true;
+      }
+
+      // The writer's own member row in this group.
+      function myMember(memberId) {
+        let m = getAfter(/databases/$(database)/documents/groups/$(groupId)/members/$(memberId)).data;
+        return m.userId == uid() && m.isDeleted != true;
+      }
+
+      function memberDoc(memberId) {
+        return getAfter(/databases/$(database)/documents/groups/$(groupId)/members/$(memberId)).data;
+      }
+
+      function isGuest(memberId) {
+        return memberDoc(memberId).userId == null;
+      }
+
+      function validGroup(g) {
+        return g.keys().hasAll(['name', 'createdBy', 'memberUserIds', 'isArchived', 'lastActivityAt', 'updatedAt', 'isDeleted'])
+          && g.name is string && g.name.size() > 0 && g.name.size() <= 40
+          && g.memberUserIds is list
+          && g.isArchived is bool && g.isDeleted is bool
+          && g.updatedAt is int && g.lastActivityAt is int;
+      }
+
+      allow read: if isMember();
+
+      // A new group: its creator must be the writer and list themselves as a member.
+      allow create: if signedIn()
+        && validGroup(request.resource.data)
+        && request.resource.data.createdBy == uid()
+        && uid() in request.resource.data.memberUserIds
+        && request.resource.data.isArchived == false;
+
+      allow update: if isMember()
+        && validGroup(request.resource.data)
+        // Who created the group never changes.
+        && request.resource.data.createdBy == resource.data.createdBy
+        // Only the creator archives or unarchives (F6).
+        && (request.resource.data.isArchived == resource.data.isArchived || isCreator())
+        // An archived group only changes by being unarchived; renames wait (read-only).
+        && (!isArchived() || request.resource.data.isArchived == false
+            || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['lastActivityAt']))
+        // You can't add other accounts by editing the list; you can only leave (remove yourself),
+        // and the creator can't leave. Invites (M5) will add accounts through their own path.
+        && request.resource.data.memberUserIds.toSet().difference(resource.data.memberUserIds.toSet()).size() == 0
+        && (request.resource.data.memberUserIds.hasAll(resource.data.memberUserIds)
+            || resource.data.memberUserIds.toSet().difference(request.resource.data.memberUserIds.toSet()).hasOnly([uid()])
+            || isCreator());
+
+      allow delete: if false; // soft deletes only
+
+      // ---------- Members ----------
+
+      match /members/{memberId} {
+        function validMember(m) {
+          return m.keys().hasAll(['groupId', 'displayName', 'createdAt', 'updatedAt', 'isDeleted'])
+            && m.groupId == groupId
+            && m.displayName is string && m.displayName.size() > 0 && m.displayName.size() <= 40
+            && (!('upiId' in m) || m.upiId == null || (m.upiId is string && m.upiId.size() <= 100));
+        }
+
+        // A guest's UPI ID change must come with its feed event in the same batch (F1, H5).
+        function guestUpiChangeIsLogged() {
+          let newUpi = request.resource.data.get('upiId', null);
+          let oldUpi = request.method == 'create' ? null : resource.data.get('upiId', null);
+          return newUpi == oldUpi
+            || (request.resource.data.get('upiEventId', null) is string
+                && getAfter(/databases/$(database)/documents/groups/$(groupId)/events/$(request.resource.data.upiEventId)).data.targetMemberId == memberId
+                && getAfter(/databases/$(database)/documents/groups/$(groupId)/events/$(request.resource.data.upiEventId)).data.newValue == newUpi);
+        }
+
+        allow read: if isMemberAfter();
+
+        // Adding yourself while creating a group, or a guest by any member.
+        allow create: if validMember(request.resource.data)
+          && (
+            (request.resource.data.get('userId', null) == uid() && isMemberAfter())
+            || (request.resource.data.get('userId', null) == null && isMemberAfter() && !isArchivedAfter())
+          )
+          && (request.resource.data.get('userId', null) != null || guestUpiChangeIsLogged());
+
+        allow update: if isMemberAfter()
+          && validMember(request.resource.data)
+          && !isArchivedAfter()
+          // Nobody turns a guest into an account here (that's the invite flow, M5).
+          && request.resource.data.get('userId', null) == resource.data.get('userId', null)
+          && (
+            // Your own row: you may change your name and UPI ID, and leave.
+            resource.data.get('userId', null) == uid()
+            // A guest's row: any member edits it, with every UPI ID change logged, but only the
+            // creator removes a guest (below).
+            || (resource.data.get('userId', null) == null && guestUpiChangeIsLogged()
+                && request.resource.data.isDeleted == resource.data.isDeleted)
+            // The creator may remove someone (sets isDeleted only).
+            || (isCreatorAfter() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['isDeleted', 'updatedAt']))
+          )
+          // Only the owner changes a real account's UPI ID (Q1).
+          && (resource.data.get('userId', null) == null
+              || resource.data.get('userId', null) == uid()
+              || request.resource.data.get('upiId', null) == resource.data.get('upiId', null));
+
+        allow delete: if false;
+      }
+
+      // ---------- Expenses ----------
+
+      match /expenses/{expenseId} {
+        function validExpense(e) {
+          return e.keys().hasAll(['groupId', 'paidBy', 'amountPaise', 'description', 'category', 'date',
+                                  'splitType', 'createdBy', 'createdAt', 'updatedAt', 'isDeleted', 'shares'])
+            && e.groupId == groupId
+            && e.amountPaise is int && e.amountPaise > 0 && e.amountPaise <= 100000000
+            && e.description is string && e.description.size() > 0 && e.description.size() <= 60
+            && e.shares is map && e.shares.size() > 0;
+        }
+
+        allow read: if isMemberAfter();
+
+        allow create: if isMemberAfter() && !isArchivedAfter()
+          && validExpense(request.resource.data)
+          && request.resource.data.createdBy == uid();
+
+        // Only the person who added it edits or deletes it (Q11).
+        allow update: if isMemberAfter() && !isArchivedAfter()
+          && validExpense(request.resource.data)
+          && resource.data.createdBy == uid()
+          && request.resource.data.createdBy == uid();
+
+        allow delete: if false;
+      }
+
+      // ---------- Settlements ----------
+
+      match /settlements/{settlementId} {
+        function validSettlement(s) {
+          return s.keys().hasAll(['groupId', 'fromMemberId', 'toMemberId', 'amountPaise', 'date',
+                                  'status', 'method', 'updatedAt', 'isDeleted'])
+            && s.groupId == groupId
+            && s.fromMemberId != s.toMemberId
+            && s.amountPaise is int && s.amountPaise > 0 && s.amountPaise <= 100000000
+            && s.status in ['PENDING', 'CONFIRMED', 'REJECTED']
+            && s.method in ['UPI', 'CASH'];
+        }
+
+        function isPayer() {
+          return myMember(request.resource.data.fromMemberId);
+        }
+
+        function isPayee() {
+          return myMember(request.resource.data.toMemberId);
+        }
+
+        function guestToGuest() {
+          return isGuest(request.resource.data.fromMemberId) && isGuest(request.resource.data.toMemberId);
+        }
+
+        // Changes other than status and deletion (amount, people, date) aren't allowed.
+        function onlyStatusOrDeletionChanged() {
+          return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'isDeleted', 'updatedAt']);
+        }
+
+        allow read: if isMemberAfter();
+
+        // Q2, Q3, F3: the payee records it CONFIRMED; the payer records it PENDING (CONFIRMED for
+        // a guest payee); anyone records a guest-to-guest payment, CONFIRMED.
+        allow create: if isMemberAfter() && !isArchivedAfter()
+          && validSettlement(request.resource.data)
+          && request.resource.data.isDeleted == false
+          && (
+            (isPayee() && request.resource.data.status == 'CONFIRMED')
+            || (isPayer() && request.resource.data.status == 'PENDING')
+            || (isPayer() && isGuest(request.resource.data.toMemberId) && request.resource.data.status == 'CONFIRMED')
+            || (guestToGuest() && request.resource.data.status == 'CONFIRMED')
+          );
+
+        allow update: if isMemberAfter() && !isArchivedAfter()
+          && validSettlement(request.resource.data)
+          && onlyStatusOrDeletionChanged()
+          && resource.data.isDeleted == false
+          && (
+            // The payee confirms or rejects a pending payment.
+            (resource.data.status == 'PENDING' && request.resource.data.isDeleted == false
+              && request.resource.data.status in ['CONFIRMED', 'REJECTED'] && isPayee())
+            // The payer cancels their pending payment (F4).
+            || (resource.data.status == 'PENDING' && request.resource.data.isDeleted == true
+              && request.resource.data.status == 'PENDING' && isPayer())
+            // A confirmed payment is undone by the payer or payee, or by anyone between guests (Q6, M1-Q6).
+            || (resource.data.status == 'CONFIRMED' && request.resource.data.isDeleted == true
+              && request.resource.data.status == 'CONFIRMED' && (isPayer() || isPayee() || guestToGuest()))
+          );
+
+        allow delete: if false;
+      }
+
+      // ---------- Events (guest UPI ID changes) ----------
+
+      match /events/{eventId} {
+        allow read: if isMemberAfter();
+
+        // Append-only: written by a member about a guest, never changed or deleted (F10).
+        allow create: if isMemberAfter() && !isArchivedAfter()
+          && request.resource.data.groupId == groupId
+          && request.resource.data.type == 'GUEST_UPI_CHANGED'
+          && myMember(request.resource.data.actorMemberId)
+          && getAfter(/databases/$(database)/documents/groups/$(groupId)/members/$(request.resource.data.targetMemberId)).data.get('userId', null) == null;
+
+        allow update, delete: if false;
+      }
+    }
+
+    // Everything else is closed.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

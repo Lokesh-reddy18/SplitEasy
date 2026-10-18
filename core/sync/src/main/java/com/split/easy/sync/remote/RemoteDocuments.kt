@@ -29,6 +29,11 @@ data class RemoteMember(
     val createdAt: Long,
     val updatedAt: Long,
     val isDeleted: Boolean,
+    /**
+     * The event recording this guest's latest UPI ID change, sent with it. The security rules use
+     * it to check that the change and its feed entry are written together. Not stored in Room.
+     */
+    val upiEventId: String? = null,
 )
 
 /** One share inside an expense document. */

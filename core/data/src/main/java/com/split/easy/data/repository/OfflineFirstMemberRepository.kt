@@ -54,6 +54,9 @@ class OfflineFirstMemberRepository @Inject constructor(
             val member = requireNotNull(memberDao.getMember(memberId)) { "No member $memberId" }
             memberDao.softDelete(memberId, updatedAt = now)
             groupDao.touchActivity(member.groupId, now)
+            // A signed-in member leaving changes who may read the group in Firestore, so the
+            // group is uploaded again with its new member list.
+            if (member.userId != null) groupDao.markPending(member.groupId)
         }
         syncScheduler.requestSync()
     }

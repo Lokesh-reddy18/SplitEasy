@@ -105,6 +105,7 @@ class UploaderTest : DatabaseTest() {
         val batch = remote.batches.single()
         assertEquals(listOf("arjun"), batch.members.map { it.id })
         assertEquals(listOf("ev1"), batch.events.map { it.id })
+        assertEquals("ev1", batch.members.single().upiEventId)
         assertEquals(0, pendingCount())
     }
 
