@@ -290,16 +290,17 @@ private fun SuggestionRowView(row: SuggestionRow, you: String, onPay: (String) -
                 color = colors.ink,
                 modifier = Modifier.weight(1f),
             )
-            if (row.hasPending &&
-                !row.isMine
-            ) {
-                StatusChip(stringResource(R.string.feed_pending), ChipStyle.PRIMARY)
+            // The Pending chip sits above the amount so names keep their width with large text.
+            Column(horizontalAlignment = Alignment.End) {
+                if (row.hasPending && !row.isMine) {
+                    StatusChip(stringResource(R.string.feed_pending), ChipStyle.PRIMARY)
+                }
+                AmountText(
+                    row.amountPaise,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = colors.ink,
+                )
             }
-            AmountText(
-                row.amountPaise,
-                style = MaterialTheme.typography.bodyLarge,
-                color = colors.ink,
-            )
         }
         when {
             row.isMine && row.payablePaise > 0 ->

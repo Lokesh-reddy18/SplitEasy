@@ -1,11 +1,16 @@
 package com.split.easy.ui.navigation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -25,6 +30,9 @@ import com.split.easy.ui.groupsettings.GroupSettingsRoute
 import com.split.easy.ui.home.GroupsHomeRoute
 import com.split.easy.ui.profile.ProfileRoute
 import com.split.easy.ui.settleup.SettleUpRoute
+import com.split.easy.ui.theme.SplitEasyTheme
+
+private val MAX_CONTENT_WIDTH = 640.dp
 
 /** The app's screens. The bottom bar shows only on the top-level tabs. */
 @Composable
@@ -49,7 +57,13 @@ fun SplitEasyApp(navController: NavHostController = rememberNavController()) {
         NavHost(
             navController = navController,
             startDestination = GroupsHomeRoute,
-            modifier = Modifier.padding(innerPadding),
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+                .background(SplitEasyTheme.colors.background)
+                // Landscape and tablets: keep lines readable instead of stretching edge to edge.
+                .wrapContentWidth()
+                .widthIn(max = MAX_CONTENT_WIDTH),
         ) {
             composable<GroupsHomeRoute> {
                 GroupsHomeRoute(

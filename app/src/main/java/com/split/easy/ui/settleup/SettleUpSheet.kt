@@ -2,7 +2,6 @@ package com.split.easy.ui.settleup
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -41,6 +40,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.split.easy.R
@@ -85,7 +85,7 @@ fun SettleUpRoute(onClose: () -> Unit, viewModel: SettleUpViewModel = hiltViewMo
             onNoteChange = viewModel::onNoteChange,
             onPay = {
                 val uri = viewModel.upiUri() ?: return@SettleUpContent
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+                val intent = Intent(Intent.ACTION_VIEW, uri.toUri())
                 try {
                     upiLauncher.launch(Intent.createChooser(intent, chooserTitle))
                 } catch (_: ActivityNotFoundException) {
