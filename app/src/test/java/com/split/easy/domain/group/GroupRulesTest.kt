@@ -84,6 +84,13 @@ class GroupRulesTest {
     }
 
     @Test
+    fun `archived list checks unarchive by user id`() {
+        assertTrue(GroupRules.canUnarchive("uid-creator", archived))
+        assertFalse(GroupRules.canUnarchive("uid-member", archived))
+        assertFalse(GroupRules.canUnarchive("uid-creator", group))
+    }
+
+    @Test
     fun `remove member needs the creator and a settled target`() {
         assertEquals(
             GroupCheck.Allowed,

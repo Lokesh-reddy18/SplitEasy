@@ -1,0 +1,18 @@
+package com.split.easy.ui.format
+
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Locale
+
+// The app's text is English; Locale.US keeps "Sep" (other English locales write "Sept").
+private val DAY_MONTH = DateTimeFormatter.ofPattern("d MMM", Locale.US)
+private val DAY_MONTH_YEAR = DateTimeFormatter.ofPattern("d MMM yyyy", Locale.US)
+
+/** "2 Sep" this year, "2 Sep 2025" otherwise. */
+fun formatShortDate(date: LocalDate, today: LocalDate = LocalDate.now()): String =
+    if (date.year == today.year) DAY_MONTH.format(date) else DAY_MONTH_YEAR.format(date)
+
+fun Long.toLocalDate(zone: ZoneId = ZoneId.systemDefault()): LocalDate =
+    Instant.ofEpochMilli(this).atZone(zone).toLocalDate()

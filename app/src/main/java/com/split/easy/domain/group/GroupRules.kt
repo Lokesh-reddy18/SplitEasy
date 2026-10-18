@@ -46,9 +46,13 @@ object GroupRules {
 
     /** Unarchive: creator only. */
     fun checkUnarchive(user: Member, group: Group): GroupCheck = when {
-        !isCreator(user, group) || !group.isArchived -> GroupCheck.NotAllowed
+        user.userId == null || !canUnarchive(user.userId, group) -> GroupCheck.NotAllowed
         else -> GroupCheck.Allowed
     }
+
+    /** For the Archived groups list, where only the user id is known. */
+    fun canUnarchive(userId: String, group: Group): Boolean =
+        group.isArchived && group.createdByUserId == userId
 
     /** Remove a member: creator only, never the creator, and only when the member is settled. */
     fun checkRemoveMember(

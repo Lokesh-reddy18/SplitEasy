@@ -8,7 +8,8 @@ import com.split.easy.domain.repository.CurrentUserProvider
  * M4 wipes that test data at the first real sign-in.
  */
 class LocalCurrentUserProvider : CurrentUserProvider {
-    override fun currentUser() = CurrentUser(userId = LOCAL_USER_ID, displayName = "You")
+    override fun currentUser() =
+        CurrentUser(userId = LOCAL_USER_ID, displayName = "You", isPlaceholder = true)
 
     companion object {
         const val LOCAL_USER_ID = "local-user"

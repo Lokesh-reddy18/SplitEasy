@@ -1,10 +1,77 @@
 <resources>
     <string name="app_name">SplitEasy</string>
-    <string name="placeholder_message">SplitEasy is being built. Milestone 2: core screens.</string>
 
     <!-- Common actions -->
     <string name="action_back">Back</string>
     <string name="action_close">Close</string>
+    <string name="coming_soon_title">Coming soon</string>
+    <string name="coming_soon_message">This screen is being built in a later step of Milestone 2.</string>
+
+    <!-- Bottom bar -->
+    <string name="nav_groups">Groups</string>
+    <string name="nav_profile">Profile</string>
+
+    <!-- Groups home (02) -->
+    <string name="home_profile_button">Profile</string>
+    <plurals name="home_offline_banner">
+        <item quantity="one">Offline · %1$d change waiting to sync</item>
+        <item quantity="other">Offline · %1$d changes waiting to sync</item>
+    </plurals>
+    <string name="home_overall_owed">Overall, you are owed</string>
+    <string name="home_overall_owe">Overall, you owe</string>
+    <string name="home_overall_settled">You\'re all settled up</string>
+    <string name="home_you_owe">You owe</string>
+    <string name="home_you_are_owed">You are owed</string>
+    <string name="home_your_groups">Your groups</string>
+    <string name="home_new_group">New group</string>
+    <string name="home_empty_title">No groups yet</string>
+    <string name="home_empty_message">Create a group for your flat, a trip or office lunches, then add what everyone spends.</string>
+    <string name="home_add_expense">Add expense</string>
+    <string name="group_row_owed">you are owed</string>
+    <string name="group_row_owe">you owe</string>
+    <string name="group_row_settled">settled up</string>
+    <plurals name="members_count">
+        <item quantity="one">%1$d member</item>
+        <item quantity="other">%1$d members</item>
+    </plurals>
+    <plurals name="to_confirm_count">
+        <item quantity="one">%1$d to confirm</item>
+        <item quantity="other">%1$d to confirm</item>
+    </plurals>
+    <plurals name="archived_groups_link">
+        <item quantity="one">Archived groups (%1$d)</item>
+        <item quantity="other">Archived groups (%1$d)</item>
+    </plurals>
+
+    <!-- Group picker (19) -->
+    <string name="picker_title">Add expense to</string>
+    <string name="picker_last_used">Last used</string>
+
+    <!-- Create group (11) -->
+    <string name="create_group_title">New group</string>
+    <string name="create_group_create">Create</string>
+    <string name="create_group_name_label">Group name</string>
+    <string name="create_group_name_hint">e.g. Coorg trip</string>
+    <string name="create_group_members">Members</string>
+    <string name="create_group_members_help">Add people by name. They\'re guests until they join with an invite link.</string>
+    <string name="create_group_creator">Group creator</string>
+    <string name="create_group_guest">Guest</string>
+    <string name="create_group_guest_hint">Name, e.g. Ravi</string>
+    <string name="create_group_add">Add</string>
+    <string name="create_group_remove_guest">Remove %1$s</string>
+    <string name="create_group_duplicate">%1$s is already in the group</string>
+    <plurals name="create_group_people">
+        <item quantity="one">%1$d person · you can add more later</item>
+        <item quantity="other">%1$d people · you can add more later</item>
+    </plurals>
+
+    <!-- Archived groups (13) -->
+    <string name="archived_title">Archived groups</string>
+    <string name="archived_help">Archived groups are read-only and don\'t count towards your totals. The person who created a group can unarchive it.</string>
+    <string name="archived_on">Archived %1$s</string>
+    <string name="archived_unarchive">Unarchive</string>
+    <string name="archived_creator_can_unarchive">%1$s can unarchive</string>
+    <string name="archived_empty">No archived groups.</string>
 
     <!-- Expense categories (Q12) -->
     <string name="category_food">Food</string>

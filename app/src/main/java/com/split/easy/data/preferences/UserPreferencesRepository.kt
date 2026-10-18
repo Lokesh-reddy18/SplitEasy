@@ -32,7 +32,15 @@ class UserPreferencesRepository @Inject constructor(
         dataStore.edit { it[THEME] = setting.name }
     }
 
+    /** The group an expense was last added to; listed first in the group picker (Q15). */
+    val lastUsedGroupId: Flow<String?> = preferences.map { it[LAST_USED_GROUP] }
+
+    suspend fun setLastUsedGroupId(groupId: String) {
+        dataStore.edit { it[LAST_USED_GROUP] = groupId }
+    }
+
     private companion object {
         val THEME = stringPreferencesKey("theme")
+        val LAST_USED_GROUP = stringPreferencesKey("last_used_group")
     }
 }

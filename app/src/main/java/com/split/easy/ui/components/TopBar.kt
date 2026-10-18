@@ -45,7 +45,7 @@ fun SplitEasyTopBar(
         modifier = modifier
             .fillMaxWidth()
             .statusBarsPadding()
-            .padding(start = 4.dp, end = 8.dp, top = 8.dp, bottom = 4.dp),
+            .padding(start = 4.dp, end = 12.dp, top = 8.dp, bottom = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (navigation != null) {
