@@ -2,10 +2,21 @@ name: CI
 
 # One run per PR update, and one after each merge to main.
 # (Triggering on every push as well would run CI twice for branches with an open PR.)
+# Changes that only touch docs or designs don't affect the app, so they skip the build.
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - "docs/**"
+      - "**/*.md"
   pull_request:
+    paths-ignore:
+      - "docs/**"
+      - "**/*.md"
+
+# The workflow only reads the repo; nothing here needs write access.
+permissions:
+  contents: read
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -24,15 +35,31 @@ jobs:
           java-version: 21
 
       - uses: gradle/actions/setup-gradle@v6
+        with:
+          # Fail if gradle-wrapper.jar doesn't match an official Gradle release.
+          validate-wrappers: true
+          # PRs reuse main's cache but don't write their own, so it stays small and clean.
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
       - name: Lint, test and check coverage
         run: ./gradlew ktlintCheck lint test koverVerify assembleDebug
 
-      - name: Upload reports
+      - name: Test summary
         if: always()
+        run: python3 .github/scripts/test_summary.py >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload reports
+        if: failure()
         uses: actions/upload-artifact@v7
         with:
           name: reports
           path: |
             **/build/reports/
             **/build/test-results/
+
+      - name: Upload debug APK
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v7
+        with:
+          name: splitEasy-debug-${{ github.sha }}
+          path: app/build/outputs/apk/debug/app-debug.apk
