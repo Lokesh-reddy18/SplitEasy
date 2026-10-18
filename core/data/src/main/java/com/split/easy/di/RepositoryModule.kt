@@ -17,8 +17,7 @@ import com.split.easy.domain.repository.GroupRepository
 import com.split.easy.domain.repository.MemberRepository
 import com.split.easy.domain.repository.SettlementRepository
 import com.split.easy.domain.repository.SyncStatusRepository
-import com.split.easy.sync.NoOpSyncScheduler
-import com.split.easy.sync.SyncScheduler
+import com.split.easy.domain.sync.SyncScheduler
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -66,10 +65,5 @@ abstract class RepositoryModule {
         @Provides
         @Singleton
         fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
-
-        /** No backend in M2 (M2-Q5); M4 binds the WorkManager scheduler here instead. */
-        @Provides
-        @Singleton
-        fun provideSyncScheduler(): SyncScheduler = NoOpSyncScheduler()
     }
 }

@@ -4,7 +4,7 @@ import com.split.easy.data.IdGenerator
 import com.split.easy.data.local.DatabaseTest
 import com.split.easy.domain.model.CurrentUser
 import com.split.easy.domain.repository.CurrentUserProvider
-import com.split.easy.sync.SyncScheduler
+import com.split.easy.domain.sync.SyncScheduler
 import java.time.Clock
 import java.time.Instant
 import java.time.ZoneOffset

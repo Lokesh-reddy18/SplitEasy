@@ -10,6 +10,7 @@ import com.split.easy.data.local.dao.GroupDao
 import com.split.easy.data.local.dao.GroupEventDao
 import com.split.easy.data.local.dao.MemberDao
 import com.split.easy.data.local.dao.SettlementDao
+import com.split.easy.data.local.dao.SyncDao
 import com.split.easy.data.local.dao.SyncStatusDao
 import dagger.Module
 import dagger.Provides
@@ -46,6 +47,9 @@ object DatabaseModule {
 
     @Provides
     fun provideGroupEventDao(database: SplitEasyDatabase): GroupEventDao = database.groupEventDao()
+
+    @Provides
+    fun provideSyncDao(database: SplitEasyDatabase): SyncDao = database.syncDao()
 
     @Provides
     fun provideSyncStatusDao(database: SplitEasyDatabase): SyncStatusDao = database.syncStatusDao()
