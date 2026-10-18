@@ -82,6 +82,7 @@ kover {
                     "com.split.easy.domain.split",
                     "com.split.easy.domain.balance",
                     "com.split.easy.domain.settlement",
+                    "com.split.easy.domain.upi",
                 )
             }
         }

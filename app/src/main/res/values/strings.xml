@@ -181,6 +181,45 @@
         <item quantity="other">%1$d payments settle everyone</item>
     </plurals>
 
+    <!-- Settle up (06, 21) -->
+    <string name="settle_title">Settle up</string>
+    <string name="settle_you_pay">You pay</string>
+    <string name="settle_no_upi_yet">No UPI ID yet</string>
+    <string name="settle_full_balance">Full balance. You can pay part of it.</string>
+    <string name="settle_part_of">You owe %1$s %2$s in total.</string>
+    <string name="settle_above">You owe %1$s only %2$s</string>
+    <string name="settle_note">Note</string>
+    <string name="settle_note_default">SplitEasy · %1$s</string>
+    <string name="settle_pay_with_upi">Pay %1$s with UPI app</string>
+    <string name="settle_pay_with_upi_plain">Pay with UPI app</string>
+    <string name="settle_upi_help">Opens GPay, PhonePe, Paytm or another UPI app. If it reports success, %1$s is asked to confirm.</string>
+    <string name="settle_upi_help_guest">Opens GPay, PhonePe, Paytm or another UPI app. %1$s is a guest, so a successful payment counts straight away.</string>
+    <string name="settle_no_upi_user">%1$s hasn\'t added a UPI ID yet. Ask %1$s to add one in Profile, or record a cash payment.</string>
+    <string name="settle_no_upi_guest">%1$s is a guest, so any member can add their UPI ID.</string>
+    <string name="settle_add_guest_upi">Add %1$s\'s UPI ID</string>
+    <string name="settle_record_cash">Paid in cash? Record payment</string>
+    <string name="settle_record_after_failure">Payment didn\'t go through? Record payment</string>
+    <string name="settle_failed">The UPI app didn\'t report a successful payment, so nothing was recorded.</string>
+    <string name="settle_no_upi_app">No UPI app was found on this phone.</string>
+    <string name="settle_nothing_to_pay">You don\'t owe %1$s anything right now.</string>
+    <string name="settle_chooser">Pay with</string>
+
+    <!-- UPI ID sheets (16, 17) and prompt (18) -->
+    <string name="upi_label">UPI ID</string>
+    <string name="upi_my_title">Your UPI ID</string>
+    <string name="upi_my_help">Friends in your groups see this when they pay you. Only you can change it.</string>
+    <string name="upi_format_help">Looks like name@bank. Find it in GPay, PhonePe or Paytm.</string>
+    <string name="upi_invalid">That doesn\'t look like a UPI ID (name@bank)</string>
+    <string name="upi_guest_title">%1$s\'s UPI ID</string>
+    <string name="upi_guest_help">%1$s is a guest, so any member can set this until %1$s joins with an invite link.</string>
+    <string name="upi_guest_warning_set">Everyone in %1$s will see this change in the group feed: \"You set %2$s\'s UPI ID to %3$s\".</string>
+    <string name="upi_guest_warning_changed">Everyone in %1$s will see this change in the group feed: \"You changed %2$s\'s UPI ID from %3$s to %4$s\".</string>
+    <string name="upi_save">Save</string>
+    <string name="upi_prompt_title">Add your UPI ID so friends can pay you</string>
+    <string name="upi_prompt_body">People who owe you in %1$s can then pay you in one tap.</string>
+    <string name="upi_prompt_add">Add UPI ID</string>
+    <string name="upi_prompt_not_now">Not now</string>
+
     <!-- Archived groups (13) -->
     <string name="archived_title">Archived groups</string>
     <string name="archived_help">Archived groups are read-only and don\'t count towards your totals. The person who created a group can unarchive it.</string>

@@ -8,12 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
 import com.split.easy.R
 import com.split.easy.ui.archived.ArchivedGroupsRoute
@@ -24,6 +26,7 @@ import com.split.easy.ui.expense.detail.ExpenseDetailRoute
 import com.split.easy.ui.expense.editor.ExpenseEditorRoute
 import com.split.easy.ui.groupdetail.GroupDetailRoute
 import com.split.easy.ui.home.GroupsHomeRoute
+import com.split.easy.ui.settleup.SettleUpRoute
 
 /** The app's screens. The bottom bar shows only on the top-level tabs. */
 @Composable
@@ -97,7 +100,12 @@ fun SplitEasyApp(navController: NavHostController = rememberNavController()) {
                     },
                 )
             }
-            composable<SettleUpRoute> { Placeholder(R.string.group_settle_up, navController) }
+            // A dialog destination keeps the previous screen visible behind the sheet (06).
+            dialog<SettleUpRoute>(
+                dialogProperties = DialogProperties(usePlatformDefaultWidth = false),
+            ) {
+                SettleUpRoute(onClose = { navController.popBackStack() })
+            }
             composable<GroupSettingsRoute> { Placeholder(R.string.group_settings, navController) }
             composable<ExpenseDetailRoute> {
                 ExpenseDetailRoute(

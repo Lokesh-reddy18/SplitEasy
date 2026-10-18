@@ -56,23 +56,50 @@ class FakeGroupRepository : GroupRepository {
 
 class FakeMemberRepository : MemberRepository {
     val members = MutableStateFlow<Map<String, List<Member>>>(emptyMap())
+    val events = MutableStateFlow<List<GroupEvent>>(emptyList())
+    val guestUpiChanges = mutableListOf<Triple<String, String, String>>()
+    val myUpiIds = mutableListOf<String>()
+    val addedGuests = mutableListOf<Pair<String, String>>()
+    val removed = mutableListOf<String>()
+
+    private fun updateMember(memberId: String, change: (Member) -> Member) {
+        members.value = members.value.mapValues { (_, list) ->
+            list.map { if (it.id == memberId) change(it) else it }
+        }
+    }
 
     override fun observeMembers(groupId: String) = members.map { it[groupId].orEmpty() }
 
-    override suspend fun addGuest(groupId: String, displayName: String) = error("not used")
+    override suspend fun addGuest(groupId: String, displayName: String): String {
+        addedGuests += groupId to displayName
+        val id = "guest-${addedGuests.size}"
+        val guest = Member(id, displayName, userId = null, createdAt = 100L + addedGuests.size)
+        members.value = members.value + (groupId to members.value[groupId].orEmpty() + guest)
+        return id
+    }
 
-    override suspend fun removeMember(memberId: String) = error("not used")
+    override suspend fun removeMember(memberId: String) {
+        removed += memberId
+        updateMember(memberId) { it.copy(isRemoved = true) }
+    }
 
     override suspend fun setGuestUpiId(
         guestMemberId: String,
         actorMemberId: String,
         upiId: String,
-    ) = error("not used")
+    ) {
+        guestUpiChanges += Triple(guestMemberId, actorMemberId, upiId)
+        updateMember(guestMemberId) { it.copy(upiId = upiId) }
+    }
 
-    override suspend fun setMyUpiId(upiId: String) = error("not used")
+    override suspend fun setMyUpiId(upiId: String) {
+        myUpiIds += upiId
+        members.value = members.value.mapValues { (_, list) ->
+            list.map { if (it.userId == "uid-you") it.copy(upiId = upiId) else it }
+        }
+    }
 
-    override fun observeEvents(groupId: String): Flow<List<GroupEvent>> =
-        MutableStateFlow(emptyList())
+    override fun observeEvents(groupId: String): Flow<List<GroupEvent>> = events
 }
 
 class FakeExpenseRepository : ExpenseRepository {
@@ -106,6 +133,17 @@ class FakeSettlementRepository : SettlementRepository {
     val settlements = MutableStateFlow<Map<String, List<Settlement>>>(emptyMap())
     val waiting = MutableStateFlow<Map<String, Int>>(emptyMap())
 
+    data class Recorded(
+        val from: String,
+        val to: String,
+        val amountPaise: Long,
+        val method: SettlementMethod,
+        val status: SettlementStatus,
+        val upiTxnId: String?,
+    )
+
+    val recorded = mutableListOf<Recorded>()
+
     override fun observeSettlements(groupId: String) = settlements.map { it[groupId].orEmpty() }
 
     override suspend fun recordSettlement(
@@ -116,7 +154,10 @@ class FakeSettlementRepository : SettlementRepository {
         method: SettlementMethod,
         status: SettlementStatus,
         upiTxnId: String?,
-    ) = error("not used")
+    ): String {
+        recorded += Recorded(fromMemberId, toMemberId, amountPaise, method, status, upiTxnId)
+        return "settlement-${recorded.size}"
+    }
 
     override suspend fun setStatus(settlementId: String, status: SettlementStatus) =
         error("not used")

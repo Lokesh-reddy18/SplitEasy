@@ -1,7 +1,9 @@
 package com.split.easy.ui.groupdetail
 
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
+import com.split.easy.data.preferences.UserPreferencesRepository
 import com.split.easy.domain.balance.equalExpense
 import com.split.easy.domain.balance.rupees
 import com.split.easy.domain.model.Group
@@ -18,6 +20,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TemporaryFolder
 
 class GroupDetailViewModelTest {
 
@@ -40,20 +43,34 @@ class GroupDetailViewModelTest {
     private val expenses = FakeExpenseRepository()
     private val settlements = FakeSettlementRepository()
 
-    private val viewModel = GroupDetailViewModel(
-        SavedStateHandle(mapOf("groupId" to "g1")),
-        groups,
-        members,
-        expenses,
-        settlements,
-        ObserveGroupBalances(members, expenses, settlements, FakeCurrentUser()),
-    )
+    @get:Rule
+    val folder = TemporaryFolder()
+
+    private val preferences by lazy {
+        UserPreferencesRepository(
+            PreferenceDataStoreFactory.create {
+                folder.newFile("p.preferences_pb").also { it.delete() }
+            },
+        )
+    }
+
+    private val viewModel by lazy {
+        GroupDetailViewModel(
+            SavedStateHandle(mapOf("groupId" to "g1")),
+            groups,
+            members,
+            expenses,
+            settlements,
+            ObserveGroupBalances(members, expenses, settlements, FakeCurrentUser()),
+            preferences,
+        )
+    }
 
     @Test
     fun `combines the group, balances and feed`() = runTest {
         viewModel.uiState.test {
-            assertTrue(awaitItem().isLoading)
-            val empty = awaitItem()
+            var empty = awaitItem()
+            while (empty.isLoading) empty = awaitItem()
             assertEquals("Coorg trip", empty.groupName)
             assertEquals(listOf(null, "Priya"), empty.memberNames)
             assertTrue(empty.canChangeThings)
@@ -70,6 +87,19 @@ class GroupDetailViewModelTest {
             assertEquals(rupees(-500), withExpense.myNetPaise)
             assertEquals(SettleUpTarget.Pay("priya"), withExpense.settleUpTarget)
             assertEquals(1, withExpense.feed.single().items.size)
+        }
+    }
+
+    @Test
+    fun `UPI ID prompt shows when you're owed and have none, until Not now`() = runTest {
+        expenses.expenses.value =
+            mapOf("g1" to listOf(equalExpense("cab", "you", 1_000, listOf("you", "priya"))))
+        viewModel.uiState.test {
+            var state = awaitItem()
+            while (!state.showUpiPrompt) state = awaitItem()
+
+            viewModel.onDismissUpiPrompt()
+            while (state.showUpiPrompt) state = awaitItem()
         }
     }
 }

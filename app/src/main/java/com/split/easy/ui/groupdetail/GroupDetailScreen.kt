@@ -42,10 +42,13 @@ import com.split.easy.ui.components.SecondaryButton
 import com.split.easy.ui.components.SectionHeader
 import com.split.easy.ui.components.SplitEasyCard
 import com.split.easy.ui.components.SplitEasyTopBar
+import com.split.easy.ui.components.TextActionButton
 import com.split.easy.ui.format.formatDayHeader
 import com.split.easy.ui.format.formatShortDate
 import com.split.easy.ui.theme.FabShape
 import com.split.easy.ui.theme.SplitEasyTheme
+import com.split.easy.ui.upi.UpiIdSheet
+import com.split.easy.ui.upi.UpiIdTarget
 import kotlin.math.abs
 
 @Composable
@@ -74,6 +77,8 @@ fun GroupDetailRoute(
         onAddExpense = { onAddExpense(groupId) },
         onOpenExpense = onOpenExpense,
         onUndoSettlement = viewModel::onUndoSettlement,
+        onDismissUpiPrompt = viewModel::onDismissUpiPrompt,
+        onSaveMyUpiId = viewModel::onSaveMyUpiId,
     )
 }
 
@@ -88,10 +93,13 @@ fun GroupDetailScreen(
     onAddExpense: () -> Unit,
     onOpenExpense: (String) -> Unit,
     onUndoSettlement: (String) -> Unit,
+    onDismissUpiPrompt: () -> Unit = {},
+    onSaveMyUpiId: (String) -> Unit = {},
 ) {
     val colors = SplitEasyTheme.colors
     val you = stringResource(R.string.you)
     var undoTarget by rememberSaveable { mutableStateOf<String?>(null) }
+    var editUpi by rememberSaveable { mutableStateOf(false) }
 
     Box(
         Modifier
@@ -126,6 +134,13 @@ fun GroupDetailScreen(
                     .navigationBarsPadding(),
             ) {
                 item { BalanceCard(state, onSettleUp, onOpenBalances) }
+                if (state.showUpiPrompt) {
+                    item {
+                        UpiPromptCard(state.groupName, onAdd = {
+                            editUpi = true
+                        }, onNotNow = onDismissUpiPrompt)
+                    }
+                }
                 if (state.feed.isEmpty() && !state.isLoading) {
                     item {
                         Text(
@@ -182,6 +197,18 @@ fun GroupDetailScreen(
                     .padding(20.dp),
             )
         }
+    }
+
+    if (editUpi) {
+        UpiIdSheet(
+            target = UpiIdTarget.Mine,
+            current = null,
+            onSave = {
+                onSaveMyUpiId(it)
+                editUpi = false
+            },
+            onDismiss = { editUpi = false },
+        )
     }
 
     val settlementToUndo = undoTarget?.let { id ->
@@ -307,4 +334,53 @@ private fun UndoSettlementDialog(
             )
         },
     )
+}
+
+/** First-time UPI ID prompt (18): shown when you're owed money and have no UPI ID. */
+@Composable
+private fun UpiPromptCard(groupName: String, onAdd: () -> Unit, onNotNow: () -> Unit) {
+    val colors = SplitEasyTheme.colors
+    Row(
+        Modifier
+            .padding(top = 12.dp)
+            .fillMaxWidth()
+            .background(colors.primaryTint, MaterialTheme.shapes.medium)
+            .padding(horizontal = 16.dp, vertical = 14.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        Box(
+            Modifier
+                .size(36.dp)
+                .background(colors.surface, MaterialTheme.shapes.small),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(
+                painterResource(R.drawable.ic_upi_card),
+                contentDescription = null,
+                tint = colors.onPrimaryTint,
+                modifier = Modifier.size(20.dp),
+            )
+        }
+        Column(Modifier.weight(1f)) {
+            Text(
+                stringResource(R.string.upi_prompt_title),
+                style = MaterialTheme.typography.bodyLarge,
+                color = colors.ink,
+            )
+            Text(
+                stringResource(R.string.upi_prompt_body, groupName),
+                style = MaterialTheme.typography.bodySmall,
+                color = colors.onNeutralTint,
+                modifier = Modifier.padding(top = 2.dp),
+            )
+            Row(Modifier.padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                PrimaryButton(stringResource(R.string.upi_prompt_add), onClick = onAdd)
+                TextActionButton(
+                    stringResource(R.string.upi_prompt_not_now),
+                    onClick = onNotNow,
+                    color = colors.onPrimaryTint,
+                )
+            }
+        }
+    }
 }

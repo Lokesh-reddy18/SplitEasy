@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.stringSetPreferencesKey
 import com.split.easy.domain.model.ThemeSetting
 import java.io.IOException
 import javax.inject.Inject
@@ -39,7 +40,17 @@ class UserPreferencesRepository @Inject constructor(
         dataStore.edit { it[LAST_USED_GROUP] = groupId }
     }
 
+    /** Groups where the first-time UPI ID prompt was dismissed with "Not now" (M2-Q7). */
+    val dismissedUpiPromptGroups: Flow<Set<String>> = preferences.map {
+        it[DISMISSED_UPI_PROMPT].orEmpty()
+    }
+
+    suspend fun dismissUpiPrompt(groupId: String) {
+        dataStore.edit { it[DISMISSED_UPI_PROMPT] = it[DISMISSED_UPI_PROMPT].orEmpty() + groupId }
+    }
+
     private companion object {
+        val DISMISSED_UPI_PROMPT = stringSetPreferencesKey("dismissed_upi_prompt")
         val THEME = stringPreferencesKey("theme")
         val LAST_USED_GROUP = stringPreferencesKey("last_used_group")
     }
