@@ -65,6 +65,40 @@
         <item quantity="other">%1$d people · you can add more later</item>
     </plurals>
 
+    <!-- Group detail (03) -->
+    <string name="you">You</string>
+    <string name="you_lowercase">you</string>
+    <string name="group_settings">Group settings</string>
+    <string name="group_balance_label">Your balance in this group</string>
+    <string name="group_balance_owed">You are owed %1$s</string>
+    <string name="group_balance_owe">You owe %1$s</string>
+    <string name="group_balance_settled">You\'re settled up</string>
+    <string name="group_archived_note">This group is archived, so nothing can change.</string>
+    <string name="group_left_note">You\'ve left this group.</string>
+    <string name="group_settle_up">Settle up</string>
+    <string name="group_balances">Balances</string>
+    <string name="group_feed_empty">No expenses yet. Add the first one with Add expense.</string>
+    <string name="feed_paid">%1$s paid %2$s</string>
+    <string name="feed_you_borrowed">you borrowed</string>
+    <string name="feed_you_lent">you lent</string>
+    <string name="feed_not_involved">not involved</string>
+    <string name="feed_not_synced">Not synced</string>
+    <string name="feed_settlement_paid_you">%1$s paid you</string>
+    <string name="feed_settlement_you_paid">You paid %1$s</string>
+    <string name="feed_settlement_paid">%1$s paid %2$s</string>
+    <string name="feed_via_upi">via UPI</string>
+    <string name="feed_in_cash">in cash</string>
+    <string name="feed_waiting_for_you">%1$s · waiting for you</string>
+    <string name="feed_waiting_for">%1$s · waiting for %2$s</string>
+    <string name="feed_not_received">Not received · %1$s</string>
+    <string name="feed_pending">Pending</string>
+    <string name="feed_event_upi_set">%1$s set %2$s\'s UPI ID to %3$s</string>
+    <string name="feed_event_upi_changed">%1$s changed %2$s\'s UPI ID from %3$s to %4$s</string>
+    <string name="undo_settlement_title">Undo this payment?</string>
+    <string name="undo_settlement_message">%1$s %2$s on %3$s. Balances go back to how they were.</string>
+    <string name="undo_settlement_confirm">Undo</string>
+    <string name="action_cancel">Cancel</string>
+
     <!-- Archived groups (13) -->
     <string name="archived_title">Archived groups</string>
     <string name="archived_help">Archived groups are read-only and don\'t count towards your totals. The person who created a group can unarchive it.</string>

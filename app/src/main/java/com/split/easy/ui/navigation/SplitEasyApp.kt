@@ -1,5 +1,6 @@
 package com.split.easy.ui.navigation
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -18,6 +19,7 @@ import com.split.easy.R
 import com.split.easy.ui.archived.ArchivedGroupsRoute
 import com.split.easy.ui.common.ComingSoonScreen
 import com.split.easy.ui.creategroup.CreateGroupRoute
+import com.split.easy.ui.groupdetail.GroupDetailRoute
 import com.split.easy.ui.home.GroupsHomeRoute
 
 /** The app's screens. The bottom bar shows only on the top-level tabs. */
@@ -73,9 +75,22 @@ fun SplitEasyApp(navController: NavHostController = rememberNavController()) {
             }
             // Built in later steps of M2; placeholders keep navigation working until then.
             composable<GroupDetailRoute> {
-                ComingSoonScreen(stringResource(R.string.coming_soon_title), onBack = {
-                    navController.popBackStack()
-                })
+                GroupDetailRoute(
+                    onBack = { navController.popBackStack() },
+                    onOpenSettings = { navController.navigate(GroupSettingsRoute(it)) },
+                    onOpenBalances = { navController.navigate(BalancesRoute(it)) },
+                    onSettleUp = { groupId, toMemberId ->
+                        navController.navigate(SettleUpRoute(groupId, toMemberId))
+                    },
+                    onAddExpense = { navController.navigate(AddExpenseRoute(it)) },
+                    onOpenExpense = { navController.navigate(ExpenseDetailRoute(it)) },
+                )
+            }
+            composable<BalancesRoute> { Placeholder(R.string.group_balances, navController) }
+            composable<SettleUpRoute> { Placeholder(R.string.group_settle_up, navController) }
+            composable<GroupSettingsRoute> { Placeholder(R.string.group_settings, navController) }
+            composable<ExpenseDetailRoute> {
+                Placeholder(R.string.coming_soon_title, navController)
             }
             composable<AddExpenseRoute> {
                 ComingSoonScreen(stringResource(R.string.home_add_expense), onBack = {
@@ -100,4 +115,10 @@ private fun NavHostController.openTab(tab: TopLevelTab) {
         launchSingleTop = true
         restoreState = true
     }
+}
+
+/** Screens still to be built in later M2 steps. */
+@Composable
+private fun Placeholder(@StringRes title: Int, navController: NavHostController) {
+    ComingSoonScreen(stringResource(title), onBack = { navController.popBackStack() })
 }

@@ -10,6 +10,18 @@ import java.util.Locale
 private val DAY_MONTH = DateTimeFormatter.ofPattern("d MMM", Locale.US)
 private val DAY_MONTH_YEAR = DateTimeFormatter.ofPattern("d MMM yyyy", Locale.US)
 
+private val WEEKDAY_DAY_MONTH = DateTimeFormatter.ofPattern("EEE, d MMM", Locale.US)
+private val WEEKDAY_DAY_MONTH_YEAR = DateTimeFormatter.ofPattern("EEE, d MMM yyyy", Locale.US)
+
+/** Feed day headers: "Sat, 10 Oct" this year, "Sat, 10 Oct 2025" otherwise (shown in capitals). */
+fun formatDayHeader(date: LocalDate, today: LocalDate = LocalDate.now()): String = if (date.year ==
+    today.year
+) {
+    WEEKDAY_DAY_MONTH.format(date)
+} else {
+    WEEKDAY_DAY_MONTH_YEAR.format(date)
+}
+
 /** "2 Sep" this year, "2 Sep 2025" otherwise. */
 fun formatShortDate(date: LocalDate, today: LocalDate = LocalDate.now()): String =
     if (date.year == today.year) DAY_MONTH.format(date) else DAY_MONTH_YEAR.format(date)
