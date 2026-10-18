@@ -10,3 +10,13 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
         db.execSQL("UPDATE `groups` SET `lastActivityAt` = `updatedAt`")
     }
 }
+
+/** M4: remembers when each group was last downloaded from Firestore. Starts empty. */
+val MIGRATION_2_3 = object : Migration(2, 3) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `sync_progress` " +
+                "(`groupId` TEXT NOT NULL, `lastDownloadedAt` INTEGER NOT NULL, PRIMARY KEY(`groupId`))",
+        )
+    }
+}
