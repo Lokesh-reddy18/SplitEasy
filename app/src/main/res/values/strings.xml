@@ -4,8 +4,6 @@
     <!-- Common actions -->
     <string name="action_back">Back</string>
     <string name="action_close">Close</string>
-    <string name="coming_soon_title">Coming soon</string>
-    <string name="coming_soon_message">This screen is being built in a later step of Milestone 2.</string>
 
     <!-- Bottom bar -->
     <string name="nav_groups">Groups</string>
@@ -251,6 +249,33 @@
     <string name="settings_remove_confirm_title">Remove %1$s?</string>
     <string name="settings_remove_confirm_body">%1$s won\'t be in new expenses. Their past expenses stay in the history.</string>
     <string name="settings_save">Save</string>
+
+    <!-- Profile (09) -->
+    <string name="profile_title">Profile</string>
+    <string name="profile_local_name">You</string>
+    <string name="profile_local_caption">Sign in with Google arrives in a later update</string>
+    <string name="profile_payments">Payments</string>
+    <string name="profile_upi">UPI ID</string>
+    <string name="profile_upi_value">%1$s · friends pay you here</string>
+    <string name="profile_upi_none">Add one so friends can pay you</string>
+    <string name="profile_edit">Edit</string>
+    <string name="profile_add">Add</string>
+    <string name="profile_sync">Sync</string>
+    <plurals name="profile_changes_waiting">
+        <item quantity="one">%1$d change waiting</item>
+        <item quantity="other">%1$d changes waiting</item>
+    </plurals>
+    <string name="profile_sync_later">Will sync when you are online</string>
+    <string name="profile_app">App</string>
+    <string name="profile_theme">Theme</string>
+    <string name="profile_theme_system">System default</string>
+    <string name="profile_theme_light">Light</string>
+    <string name="profile_theme_dark">Dark</string>
+    <string name="profile_developer">Developer</string>
+    <string name="profile_demo_data">Load demo data</string>
+    <string name="profile_demo_data_help">Adds the groups and expenses from the designs (debug builds only)</string>
+    <string name="profile_demo_done">Demo data added</string>
+    <string name="profile_version">SplitEasy v%1$s</string>
 
     <!-- Archived groups (13) -->
     <string name="archived_title">Archived groups</string>

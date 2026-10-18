@@ -1,13 +1,11 @@
 package com.split.easy.ui.navigation
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -17,16 +15,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
-import com.split.easy.R
 import com.split.easy.ui.archived.ArchivedGroupsRoute
 import com.split.easy.ui.balances.BalancesRoute
-import com.split.easy.ui.common.ComingSoonScreen
 import com.split.easy.ui.creategroup.CreateGroupRoute
 import com.split.easy.ui.expense.detail.ExpenseDetailRoute
 import com.split.easy.ui.expense.editor.ExpenseEditorRoute
 import com.split.easy.ui.groupdetail.GroupDetailRoute
 import com.split.easy.ui.groupsettings.GroupSettingsRoute
 import com.split.easy.ui.home.GroupsHomeRoute
+import com.split.easy.ui.profile.ProfileRoute
 import com.split.easy.ui.settleup.SettleUpRoute
 
 /** The app's screens. The bottom bar shows only on the top-level tabs. */
@@ -125,9 +122,7 @@ fun SplitEasyApp(navController: NavHostController = rememberNavController()) {
             composable<ExpenseEditorRoute> {
                 ExpenseEditorRoute(onClose = { navController.popBackStack() })
             }
-            composable<ProfileRoute> {
-                ComingSoonScreen(stringResource(R.string.nav_profile), onBack = null)
-            }
+            composable<ProfileRoute> { ProfileRoute() }
         }
     }
 }
@@ -143,10 +138,4 @@ private fun NavHostController.openTab(tab: TopLevelTab) {
         launchSingleTop = true
         restoreState = true
     }
-}
-
-/** Screens still to be built in later M2 steps. */
-@Composable
-private fun Placeholder(@StringRes title: Int, navController: NavHostController) {
-    ComingSoonScreen(stringResource(title), onBack = { navController.popBackStack() })
 }
