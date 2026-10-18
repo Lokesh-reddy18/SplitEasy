@@ -19,6 +19,8 @@ import com.split.easy.R
 import com.split.easy.ui.archived.ArchivedGroupsRoute
 import com.split.easy.ui.common.ComingSoonScreen
 import com.split.easy.ui.creategroup.CreateGroupRoute
+import com.split.easy.ui.expense.detail.ExpenseDetailRoute
+import com.split.easy.ui.expense.editor.ExpenseEditorRoute
 import com.split.easy.ui.groupdetail.GroupDetailRoute
 import com.split.easy.ui.home.GroupsHomeRoute
 
@@ -51,7 +53,7 @@ fun SplitEasyApp(navController: NavHostController = rememberNavController()) {
                 GroupsHomeRoute(
                     onOpenGroup = { navController.navigate(GroupDetailRoute(it)) },
                     onNewGroup = { navController.navigate(CreateGroupRoute) },
-                    onAddExpense = { navController.navigate(AddExpenseRoute(it)) },
+                    onAddExpense = { navController.navigate(ExpenseEditorRoute(it)) },
                     onOpenArchived = { navController.navigate(ArchivedGroupsRoute) },
                     onOpenProfile = { navController.openTab(TopLevelTab.PROFILE) },
                 )
@@ -82,7 +84,7 @@ fun SplitEasyApp(navController: NavHostController = rememberNavController()) {
                     onSettleUp = { groupId, toMemberId ->
                         navController.navigate(SettleUpRoute(groupId, toMemberId))
                     },
-                    onAddExpense = { navController.navigate(AddExpenseRoute(it)) },
+                    onAddExpense = { navController.navigate(ExpenseEditorRoute(it)) },
                     onOpenExpense = { navController.navigate(ExpenseDetailRoute(it)) },
                 )
             }
@@ -90,12 +92,15 @@ fun SplitEasyApp(navController: NavHostController = rememberNavController()) {
             composable<SettleUpRoute> { Placeholder(R.string.group_settle_up, navController) }
             composable<GroupSettingsRoute> { Placeholder(R.string.group_settings, navController) }
             composable<ExpenseDetailRoute> {
-                Placeholder(R.string.coming_soon_title, navController)
+                ExpenseDetailRoute(
+                    onBack = { navController.popBackStack() },
+                    onEdit = { groupId, expenseId ->
+                        navController.navigate(ExpenseEditorRoute(groupId, expenseId))
+                    },
+                )
             }
-            composable<AddExpenseRoute> {
-                ComingSoonScreen(stringResource(R.string.home_add_expense), onBack = {
-                    navController.popBackStack()
-                })
+            composable<ExpenseEditorRoute> {
+                ExpenseEditorRoute(onClose = { navController.popBackStack() })
             }
             composable<ProfileRoute> {
                 ComingSoonScreen(stringResource(R.string.nav_profile), onBack = null)

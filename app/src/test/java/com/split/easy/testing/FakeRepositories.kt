@@ -77,17 +77,29 @@ class FakeMemberRepository : MemberRepository {
 
 class FakeExpenseRepository : ExpenseRepository {
     val expenses = MutableStateFlow<Map<String, List<Expense>>>(emptyMap())
+    val added = mutableListOf<ExpenseDraft>()
+    val updated = mutableListOf<Pair<String, ExpenseDraft>>()
+    val deleted = mutableListOf<String>()
 
     override fun observeExpenses(groupId: String) = expenses.map { it[groupId].orEmpty() }
 
     override fun observeExpense(expenseId: String) =
         expenses.map { all -> all.values.flatten().firstOrNull { it.id == expenseId } }
 
-    override suspend fun addExpense(draft: ExpenseDraft) = error("not used")
+    override suspend fun addExpense(draft: ExpenseDraft): String {
+        added += draft
+        return "new-expense-${added.size}"
+    }
 
-    override suspend fun updateExpense(expenseId: String, draft: ExpenseDraft) = error("not used")
+    override suspend fun updateExpense(expenseId: String, draft: ExpenseDraft) {
+        updated += expenseId to draft
+    }
 
-    override suspend fun deleteExpense(expenseId: String) = error("not used")
+    override suspend fun deleteExpense(expenseId: String) {
+        deleted += expenseId
+        expenses.value =
+            expenses.value.mapValues { (_, list) -> list.filterNot { it.id == expenseId } }
+    }
 }
 
 class FakeSettlementRepository : SettlementRepository {

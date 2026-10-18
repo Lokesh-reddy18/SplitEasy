@@ -28,3 +28,9 @@ fun formatShortDate(date: LocalDate, today: LocalDate = LocalDate.now()): String
 
 fun Long.toLocalDate(zone: ZoneId = ZoneId.systemDefault()): LocalDate =
     Instant.ofEpochMilli(this).atZone(zone).toLocalDate()
+
+private val TIME = DateTimeFormatter.ofPattern("h:mm a", Locale.US)
+
+/** "9:41 pm" from epoch milliseconds, in the phone's time zone. */
+fun formatTime(epochMillis: Long, zone: ZoneId = ZoneId.systemDefault()): String =
+    TIME.format(Instant.ofEpochMilli(epochMillis).atZone(zone)).lowercase(Locale.US)

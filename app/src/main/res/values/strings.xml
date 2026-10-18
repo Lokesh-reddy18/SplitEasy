@@ -99,6 +99,62 @@
     <string name="undo_settlement_confirm">Undo</string>
     <string name="action_cancel">Cancel</string>
 
+    <!-- Add or edit expense (04) -->
+    <string name="editor_add_title">Add expense</string>
+    <string name="editor_edit_title">Edit expense</string>
+    <string name="editor_save">Save</string>
+    <string name="editor_amount">Amount</string>
+    <string name="editor_description">Description</string>
+    <string name="editor_description_hint">What was it for?</string>
+    <string name="editor_paid_by">Paid by</string>
+    <string name="editor_category">Category</string>
+    <string name="editor_date">Date</string>
+    <string name="editor_split">Split</string>
+    <string name="editor_split_equal">Equally</string>
+    <string name="editor_split_exact">Exact</string>
+    <string name="editor_split_percent">Percent</string>
+    <string name="editor_error_amount_missing">Enter an amount</string>
+    <string name="editor_error_amount_invalid">Enter a number like 2400 or 333.50</string>
+    <string name="editor_error_amount_decimals">Up to 2 decimals</string>
+    <string name="editor_error_amount_zero">Enter more than ₹0</string>
+    <string name="editor_error_amount_limit">The most for one expense is ₹10,00,000</string>
+    <string name="editor_error_description">Add a description</string>
+    <string name="editor_error_date">Pick a date up to 30 days ahead</string>
+    <string name="editor_status_enter_amount">Enter an amount to split</string>
+    <string name="editor_status_no_one">Pick at least one person</string>
+    <string name="editor_status_invalid">Check the amounts: up to 2 decimals</string>
+    <string name="editor_status_balanced">%1$s of %1$s assigned</string>
+    <string name="editor_status_left">%1$s left to assign</string>
+    <string name="editor_status_over">%1$s over the total</string>
+    <string name="editor_status_percent_left">%1$s%% left to assign</string>
+    <string name="editor_status_percent_over">%1$s%% over 100%%</string>
+    <string name="editor_discard_new">Discard this expense?</string>
+    <string name="editor_discard_edit">Discard your changes?</string>
+    <string name="editor_keep_editing">Keep editing</string>
+    <string name="editor_discard">Discard</string>
+    <string name="editor_amount_for">Amount for %1$s</string>
+    <string name="editor_percent_for">Percentage for %1$s</string>
+    <plurals name="editor_people">
+        <item quantity="one">%1$d person</item>
+        <item quantity="other">%1$d people</item>
+    </plurals>
+
+    <!-- Expense detail (14) and delete (15) -->
+    <string name="detail_title">Expense</string>
+    <string name="detail_category_date">%1$s · %2$s</string>
+    <string name="detail_paid_split_equal">%1$s paid · split equally between %2$d</string>
+    <string name="detail_paid_split_exact">%1$s paid · split by exact amounts</string>
+    <string name="detail_paid_split_percent">%1$s paid · split by percentage</string>
+    <string name="detail_shares">Shares</string>
+    <string name="detail_paid_tag">paid</string>
+    <string name="detail_added_by">Added by %1$s · %2$s</string>
+    <string name="detail_someone">someone</string>
+    <string name="detail_only_creator">Only %1$s can edit this expense</string>
+    <string name="detail_delete">Delete</string>
+    <string name="detail_edit">Edit</string>
+    <string name="delete_expense_title">Delete this expense?</string>
+    <string name="delete_expense_message">%1$s · %2$s. Balances in %3$s update for everyone.</string>
+
     <!-- Archived groups (13) -->
     <string name="archived_title">Archived groups</string>
     <string name="archived_help">Archived groups are read-only and don\'t count towards your totals. The person who created a group can unarchive it.</string>

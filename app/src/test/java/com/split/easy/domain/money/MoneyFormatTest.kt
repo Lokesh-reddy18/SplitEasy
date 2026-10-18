@@ -60,4 +60,13 @@ class MoneyFormatTest {
         assertEquals("\u2212₹1,700", formatInrSigned(-1_70_000))
         assertEquals("₹0", formatInrSigned(0))
     }
+
+    @Test
+    fun `plain amounts for input fields have no sign or commas`() {
+        assertEquals("2400", formatPlainAmount(2_40_000))
+        assertEquals("333.33", formatPlainAmount(33_333))
+        assertEquals("2400.50", formatPlainAmount(2_40_050))
+        assertEquals("0.05", formatPlainAmount(5))
+        assertEquals("100000", formatPlainAmount(1_00_000_00))
+    }
 }

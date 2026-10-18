@@ -19,8 +19,9 @@ data object ArchivedGroupsRoute
 @Serializable
 data class GroupDetailRoute(val groupId: String)
 
+/** Add an expense, or edit one when [expenseId] is set. */
 @Serializable
-data class AddExpenseRoute(val groupId: String)
+data class ExpenseEditorRoute(val groupId: String, val expenseId: String? = null)
 
 @Serializable
 data class BalancesRoute(val groupId: String)

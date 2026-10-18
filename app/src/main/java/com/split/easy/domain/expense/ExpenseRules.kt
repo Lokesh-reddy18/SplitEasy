@@ -10,6 +10,9 @@ object ExpenseRules {
     /** People plan trips, so dates up to 30 days ahead are allowed. Past dates have no limit. */
     const val MAX_DAYS_AHEAD = 30L
 
+    /** Descriptions are required and short, since they're the row title in the feed (M2-Q3). */
+    const val MAX_DESCRIPTION_LENGTH = 60
+
     /**
      * Only the person who added an expense can edit or delete it, and not in an archived group.
      * Everyone else sees it read-only, including after its creator has left the group.

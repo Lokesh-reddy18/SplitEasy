@@ -37,11 +37,23 @@ fun formatInrSigned(paise: Long): String = when {
  * Indian digit grouping: the last three digits, then groups of two.
  * 1234567 → "12,34,567". Written by hand so it's the same on every device and JVM.
  */
-private fun groupIndian(number: Long): String {
-    val digits = number.toString()
+private fun groupIndian(number: Long): String = groupIndianDigits(number.toString())
+
+/** The same grouping for a string of digits, used while typing an amount: "240000" → "2,40,000". */
+fun groupIndianDigits(digits: String): String {
     if (digits.length <= 3) return digits
     val lastThree = digits.takeLast(3)
     val leading = digits.dropLast(3)
     val leadingGroups = leading.reversed().chunked(2).joinToString(",").reversed()
     return "$leadingGroups,$lastThree"
+}
+
+/**
+ * Paise as plain text for an input field, with no rupee sign or commas: 2,40,000 → "2400",
+ * 33,333 → "333.33", 2,40,050 → "2400.50". Used to prefill the amount when editing.
+ */
+fun formatPlainAmount(paise: Long): String {
+    val rupees = paise / PAISE_PER_RUPEE
+    val remainder = abs(paise % PAISE_PER_RUPEE)
+    return if (remainder == 0L) "$rupees" else "$rupees." + remainder.toString().padStart(2, '0')
 }
