@@ -30,7 +30,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.split.easy.R
+import com.split.easy.core.designsystem.R
 import com.split.easy.domain.model.SettlementMethod
 import com.split.easy.domain.money.formatInr
 import com.split.easy.ui.components.AmountText

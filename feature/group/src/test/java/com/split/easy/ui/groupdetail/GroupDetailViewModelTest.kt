@@ -15,7 +15,11 @@ import com.split.easy.testing.FakeGroupRepository
 import com.split.easy.testing.FakeMemberRepository
 import com.split.easy.testing.FakeSettlementRepository
 import com.split.easy.testing.MainDispatcherRule
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.test.runTest
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -46,9 +50,15 @@ class GroupDetailViewModelTest {
     @get:Rule
     val folder = TemporaryFolder()
 
+    private val dataStoreScope = CoroutineScope(SupervisorJob() + mainDispatcher.dispatcher)
+
+    @After
+    fun cancelDataStore() = dataStoreScope.cancel()
+
     private val preferences by lazy {
         UserPreferencesRepository(
-            PreferenceDataStoreFactory.create {
+            // Its own scope, cancelled after each test, so no DataStore write outlives the test.
+            PreferenceDataStoreFactory.create(scope = dataStoreScope) {
                 folder.newFile("p.preferences_pb").also { it.delete() }
             },
         )

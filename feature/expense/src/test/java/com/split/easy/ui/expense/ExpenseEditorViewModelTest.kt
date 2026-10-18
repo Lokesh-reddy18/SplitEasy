@@ -19,8 +19,12 @@ import java.time.Clock
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneOffset
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -35,6 +39,11 @@ class ExpenseEditorViewModelTest {
 
     @get:Rule
     val folder = TemporaryFolder()
+
+    private val dataStoreScope = CoroutineScope(SupervisorJob() + mainDispatcher.dispatcher)
+
+    @After
+    fun cancelDataStore() = dataStoreScope.cancel()
 
     private val today = LocalDate.of(2026, 10, 10)
     private val clock = Clock.fixed(Instant.parse("2026-10-10T09:00:00Z"), ZoneOffset.UTC)
@@ -54,7 +63,8 @@ class ExpenseEditorViewModelTest {
     private val expenses = FakeExpenseRepository()
     private val preferences by lazy {
         UserPreferencesRepository(
-            PreferenceDataStoreFactory.create {
+            // Its own scope, cancelled after each test, so no DataStore write outlives the test.
+            PreferenceDataStoreFactory.create(scope = dataStoreScope) {
                 folder.newFile("p.preferences_pb").also { it.delete() }
             },
         )
