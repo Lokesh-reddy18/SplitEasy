@@ -230,8 +230,8 @@ The build takes six weeks: all P0 requirements are done by the end of week 4, le
 
 | Phase | Weeks | Deliverables |
 | --- | --- | --- |
-| Foundations | 1-2 | Project setup, Room schema, split logic + tests |
-| Core UI and settle-up | 2-3 | Compose screens, balances, UPI |
+| Foundations | 1-2 | Project setup, Room schema, split logic + tests — **done (M1)** |
+| Core UI and settle-up | 2-3 | Compose screens, balances, UPI — **done (M2, see `docs/plans/M2-core-ui.md` §7)** |
 | Auth and sync | 4 | Firebase Auth, WorkManager sync — **MVP (P0) complete** |
 | Standout features | 5 | Invite links, receipt OCR, widget, charts |
 | Polish and release | 6 | README, demo GIF, signed APK — **v1.0 release** |

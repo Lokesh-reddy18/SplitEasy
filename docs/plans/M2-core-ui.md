@@ -238,8 +238,8 @@ Each step is one focused commit (or a few small ones). `./gradlew ktlintCheck li
 ---
 
 ## 6. Definition of done for M2
-- [ ] Every M2 screen matches its design (light and dark), and the 8 new designs were approved before they were built.
-- [ ] The full flow works offline on an emulator:
+- [x] Every M2 screen matches its design (light and dark), and the new designs were approved before they were built.
+- [ ] The full flow works offline on an emulator (not run by the agent; see §7):
   1. Create a group
   2. Add guests
   3. Add equal, exact and percentage expenses
@@ -247,8 +247,44 @@ Each step is one focused commit (or a few small ones). `./gradlew ktlintCheck li
   5. Pay through UPI, or record a cash payment
   6. Confirm, reject, cancel or undo the settlement
   7. Archive the group
-- [ ] Every write lands in Room with `syncState = PENDING` and shows up immediately.
-- [ ] ViewModel, repository and key Compose UI tests pass; the domain coverage gate stays at 90% or more.
-- [ ] `./gradlew ktlintCheck lint test koverVerify assembleDebug` is green locally and in CI.
-- [ ] TalkBack labels on icons and amounts, 48 dp touch targets, and usable at 200% font size and in landscape.
-- [ ] The PRD is updated where M2 decisions changed it.
+- [x] Every write lands in Room with `syncState = PENDING` and shows up immediately.
+- [x] ViewModel, repository and key Compose UI tests pass; the domain coverage gate stays at 90% or more.
+- [x] `./gradlew ktlintCheck lint test koverVerify assembleDebug` is green locally and in CI.
+- [x] TalkBack labels on icons and amounts, 48 dp touch targets, and usable at 200% font size and in landscape.
+- [x] The PRD is updated where M2 decisions changed it.
+
+## 7. Outcome
+
+**Done.** `./gradlew ktlintCheck lint test koverVerify assembleDebug` passes locally and in CI. 217 JVM tests (domain, Room, repositories, ViewModels, Robolectric Compose UI), all passing; domain coverage gate (now also covering `domain.upi`) stays at 90%+.
+
+| Step | Commit |
+| --- | --- |
+| 1 Designs 11–22 + dark palette | `docs: add designs for Milestone 2 screens and the dark palette` |
+| 2 Theme and components | `feat(ui): add SplitEasy theme and shared components` |
+| 3 Repositories | `feat(data): add repositories that write locally first` |
+| 4 Groups home, create group, picker, archived | `feat(ui): add Groups home, create group and group picker` |
+| 5 Group detail and feed | `feat(ui): add group detail and activity feed` |
+| 6 Expense editor and detail | `feat(ui): add expense editor and expense detail` |
+| 7 Balances | `feat(ui): add balances with confirm, reject and cancel` |
+| 8 Settle up and UPI | `feat(ui): add settle up sheet with UPI payment` |
+| 9 Group settings | `feat(ui): add group settings` |
+| 10 Profile, demo data, polish | `feat(ui): add profile and debug demo data`, `fix(ui): large text, landscape and lint polish` |
+
+**Decisions made while building (not in the designs)**
+- Archived groups list (13) was built in Step 4 so the home link works.
+- Read-only notes: "This group is archived, so nothing can change." / "You've left this group."
+- Expense form errors show after Save, except typing mistakes (too many decimals, over ₹10,00,000).
+- Settle up opens as a sheet over the previous screen; the note defaults to "SplitEasy · <group>".
+- UPI ID format check: `name@handle`; a guest's UPI ID can be added straight from Settle up.
+- Profile shows "You" with a profile icon until sign-in (M4); sync card stays hidden behind `FeatureFlags.SHOW_SYNC_STATUS`.
+- Large fonts (1.5x+) stack a group's balance under its name; content is capped at 640 dp wide in landscape.
+
+**Not verified**
+- **On a device or emulator:** the agent can't run one. Please walk through the §6 flow, especially the real UPI round trip (GPay/PhonePe/Paytm), which Robolectric can't test. Some UPI apps refuse payments to personal IDs from third-party apps (PRD risk table); "Record payment" covers that.
+- **TalkBack** was checked through semantics in tests, not with the screen reader itself.
+- The **Add/Edit expense** screen couldn't be rendered as an image in tests (focused field keeps the test busy); its layout is covered by UI tests only.
+
+**Carried into M4**
+- Google sign-in replaces the local "You" (wipe local data at first sign-in, as agreed).
+- Real `SyncScheduler` + WorkManager + Firestore; turn on `SHOW_SYNC_STATUS`; add Sign out to Profile.
+
