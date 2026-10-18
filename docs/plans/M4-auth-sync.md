@@ -1,6 +1,6 @@
 # Milestone 4 — Sign-in and sync (plan)
 
-**Status:** draft for review. No app code is written until the questions in §3 are answered.
+**Status:** approved. All questions in §3 answered (recommended option each time).
 
 ## 1. Goal
 
@@ -23,34 +23,40 @@ From the PRD: **FR-1** (Google sign-in, usable offline after the first sign-in) 
 - **Options:**
   - a) M4 syncs your own groups across your devices; FR-11 invite links in M5 connect other people. The data model and rules are built for multiple users from day one, so M5 only adds the link and the "join" step. *(Recommended: keeps M4 focused; the PRD already puts FR-11 in M5)*
   - b) Move FR-11 invite links into M4 (M4 becomes about twice as big).
+- **Answer:** a (own devices in M4; invite links in M5).
 
 ### M4-Q2. What happens to M2's local data at the first sign-in?
 - **Agreed in M2-Q1:** it's wiped. Confirming the details:
   - a) First sign-in on a phone: delete all local Room data and the "Last used" / dismissed-prompt settings, keep the theme. *(Recommended, as agreed)*
   - b) Keep it and upload it under the new account.
+- **Answer:** a (wipe at first sign-in, keep the theme).
 
 ### M4-Q3. What does Sign out do?
 - **Problem:** after signing out, the next person on the phone must not see the previous account's groups.
 - **Options:**
   - a) Sign out deletes local data. If any changes haven't uploaded yet, it first warns "N changes haven't synced yet. Sign out anyway?" *(Recommended)*
   - b) Sign out keeps local data until another account signs in.
+- **Answer:** a (delete local data, warn about unsynced changes).
 
 ### M4-Q4. Firestore's own offline cache
 - **Problem:** Firestore keeps its own offline copy by default. Room is already our offline copy, so the data would be stored twice.
 - **Options:**
   - a) Turn Firestore's cache off; Room is the only local store. *(Recommended: matches "Room is the single source of truth")*
   - b) Leave it on.
+- **Answer:** a (Firestore cache off; Room only).
 
 ### M4-Q5. Where does the sync code live?
 - **Options:**
   - a) New modules: `:core:sync` (WorkManager worker, Firestore reads/writes, merging into Room) and `:feature:auth` (sign-in screen). *(Recommended: same pattern as M2.5; Firebase stays out of features)*
   - b) Put sync inside `:core:data` and the sign-in screen inside `:app`.
+- **Answer:** a (`:core:sync` and `:feature:auth`).
 
 ### M4-Q6. `google-services.json` in CI
 - **Problem:** the build needs this file, but it's git-ignored, so CI can't build once Firebase is added.
 - **Options:**
   - a) Store it as a GitHub Actions secret; CI writes it to `app/` before building. You'd add the secret (I'll give exact steps). *(Recommended)*
   - b) Commit it. It isn't truly secret (it ships inside every APK), but `CLAUDE.md` says to keep it out of the repo.
+- **Answer:** a (GitHub Actions secret).
 
 ### M4-Q7. Firestore security rules: tests and deployment
 - **Options for testing:**
@@ -59,17 +65,20 @@ From the PRD: **FR-1** (Google sign-in, usable offline after the first sign-in) 
 - **Options for deploying:**
   - a) Rules live in the repo (`firebase/firestore.rules`); you deploy with `firebase deploy --only firestore:rules` after installing the Firebase CLI. *(Recommended)*
   - b) You paste them into the Firebase console.
+- **Answer:** a (emulator tests in CI; rules deployed from the repo).
 
 ### M4-Q8. How fresh do other devices' changes need to be?
 - **Options:**
   - a) While the app is open, listen to your active groups live (changes appear within seconds). When the app opens, fetch what changed since the last sync. Archived groups are fetched once, not listened to. *(Recommended: matches the PRD's "listen only to active groups")*
   - b) Only fetch when the app opens or on pull-to-refresh (cheaper, less live).
+- **Answer:** a (live listeners on active groups + fetch on start).
 
 ### M4-Q9. The debug "Load demo data" button
 - **Problem:** after sign-in, demo groups would upload to your Firestore account.
 - **Options:**
   - a) Keep it (debug builds only); the demo groups sync like any other. Useful for testing sync. *(Recommended)*
   - b) Remove it in M4.
+- **Answer:** a (keep it, debug only).
 
 ## 4. Design
 
