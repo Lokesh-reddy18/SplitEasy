@@ -37,6 +37,10 @@ interface GroupDao {
     )
     suspend fun rename(id: String, name: String, updatedAt: Long)
 
+    /** Re-uploads the group without changing updatedAt, so it can't win a conflict it shouldn't. */
+    @Query("UPDATE groups SET syncState = 'PENDING' WHERE id = :id")
+    suspend fun markPending(id: String)
+
     /**
      * Moves the group's activity time forward (never back). Leaves updatedAt and syncState alone;
      * in M4 this field syncs on its own, keeping the larger value.

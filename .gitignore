@@ -21,3 +21,7 @@ google-services.json
 *.keystore
 keystore.properties
 
+
+# Firestore rules tests (firebase/)
+firebase/node_modules/
+firebase/*-debug.log

@@ -8,7 +8,8 @@ class FirestoreFieldsTest {
 
     private val group =
         RemoteGroup("g1", "Coorg trip", "uid-a", listOf("uid-a", "uid-b"), false, 5, 4, false)
-    private val member = RemoteMember("m1", "g1", "Arjun", null, "arjun@oksbi", 1, 2, false)
+    private val member =
+        RemoteMember("m1", "g1", "Arjun", null, "arjun@oksbi", 1, 2, false, upiEventId = "ev1")
     private val expense = RemoteExpense(
         id = "e1",
         groupId = "g1",

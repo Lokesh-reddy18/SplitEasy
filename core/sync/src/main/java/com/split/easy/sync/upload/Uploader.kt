@@ -49,7 +49,7 @@ class Uploader @Inject constructor(
             val event = events.firstOrNull { it.records(member) }?.also { events.remove(it) }
             val write =
                 RemoteWrite(
-                    members = listOf(member.toRemote()),
+                    members = listOf(member.toRemote().copy(upiEventId = event?.id)),
                     events = listOfNotNull(event?.toRemote()),
                 )
             items += UploadItem(write) {

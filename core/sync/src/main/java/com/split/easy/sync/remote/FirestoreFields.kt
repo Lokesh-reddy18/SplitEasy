@@ -39,6 +39,7 @@ internal object FirestoreFields {
         "createdAt" to createdAt,
         "updatedAt" to updatedAt,
         "isDeleted" to isDeleted,
+        "upiEventId" to upiEventId,
     )
 
     fun member(id: String, data: Map<String, Any?>) = RemoteMember(
@@ -50,6 +51,7 @@ internal object FirestoreFields {
         createdAt = data.long("createdAt"),
         updatedAt = data.long("updatedAt"),
         isDeleted = data.boolean("isDeleted"),
+        upiEventId = data.optionalString("upiEventId"),
     )
 
     fun RemoteExpense.toMap(): Map<String, Any?> = mapOf(
