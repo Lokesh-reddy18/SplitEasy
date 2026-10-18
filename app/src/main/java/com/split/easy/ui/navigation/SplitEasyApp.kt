@@ -25,6 +25,7 @@ import com.split.easy.ui.creategroup.CreateGroupRoute
 import com.split.easy.ui.expense.detail.ExpenseDetailRoute
 import com.split.easy.ui.expense.editor.ExpenseEditorRoute
 import com.split.easy.ui.groupdetail.GroupDetailRoute
+import com.split.easy.ui.groupsettings.GroupSettingsRoute
 import com.split.easy.ui.home.GroupsHomeRoute
 import com.split.easy.ui.settleup.SettleUpRoute
 
@@ -106,7 +107,13 @@ fun SplitEasyApp(navController: NavHostController = rememberNavController()) {
             ) {
                 SettleUpRoute(onClose = { navController.popBackStack() })
             }
-            composable<GroupSettingsRoute> { Placeholder(R.string.group_settings, navController) }
+            composable<GroupSettingsRoute> {
+                GroupSettingsRoute(
+                    onBack = { navController.popBackStack() },
+                    // After leaving, the group is no longer yours: go back to Groups home.
+                    onLeft = { navController.popBackStack(GroupsHomeRoute, inclusive = false) },
+                )
+            }
             composable<ExpenseDetailRoute> {
                 ExpenseDetailRoute(
                     onBack = { navController.popBackStack() },

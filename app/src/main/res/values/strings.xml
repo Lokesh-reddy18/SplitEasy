@@ -220,6 +220,38 @@
     <string name="upi_prompt_add">Add UPI ID</string>
     <string name="upi_prompt_not_now">Not now</string>
 
+    <!-- Group settings (12) -->
+    <string name="settings_title">Group settings</string>
+    <string name="settings_name">Name</string>
+    <string name="settings_rename">Rename</string>
+    <string name="settings_rename_title">Rename group</string>
+    <string name="settings_members">Members · %1$d</string>
+    <string name="settings_creator">Group creator</string>
+    <string name="settings_creator_upi">Group creator · %1$s</string>
+    <string name="settings_guest">Guest</string>
+    <string name="settings_no_upi">No UPI ID</string>
+    <string name="settings_edit_upi">Edit UPI ID</string>
+    <string name="settings_add_upi">Add</string>
+    <string name="settings_remove">Remove</string>
+    <string name="settings_settle_first">Settle %1$s first</string>
+    <string name="settings_resolve_pending">Resolve pending payments first</string>
+    <string name="settings_add_guest">Add a guest</string>
+    <string name="settings_add_guest_title">Add a guest</string>
+    <string name="settings_guest_name">Name</string>
+    <string name="settings_add">Add</string>
+    <string name="settings_group">Group</string>
+    <string name="settings_archive">Archive group</string>
+    <string name="settings_unarchive">Unarchive group</string>
+    <string name="settings_leave">Leave group</string>
+    <string name="settings_creator_note">As the creator you can\'t leave the group. Archive it once everyone has settled up.</string>
+    <string name="settings_archive_confirm_title">Archive %1$s?</string>
+    <string name="settings_archive_confirm_body">It becomes read-only and moves to Archived groups. You can unarchive it later.</string>
+    <string name="settings_leave_confirm_title">Leave %1$s?</string>
+    <string name="settings_leave_confirm_body">You\'ll stop seeing this group. Your past expenses stay in its history.</string>
+    <string name="settings_remove_confirm_title">Remove %1$s?</string>
+    <string name="settings_remove_confirm_body">%1$s won\'t be in new expenses. Their past expenses stay in the history.</string>
+    <string name="settings_save">Save</string>
+
     <!-- Archived groups (13) -->
     <string name="archived_title">Archived groups</string>
     <string name="archived_help">Archived groups are read-only and don\'t count towards your totals. The person who created a group can unarchive it.</string>
